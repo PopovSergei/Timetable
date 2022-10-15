@@ -1,0 +1,67 @@
+{% extends "./layout.peb" %}
+{% block content %}
+    <p><h1> Расписание занятий </h1></p>
+
+    <h2><form id="groupForm">
+    <select id="groupMenu" onchange = "window.location=document.forms[0].groupMenu.options[document.forms[0].groupMenu.selectedIndex].value">
+
+    {% if model.group is not null %}
+        <option value="">{{model.group}}</option>
+    {% else %}
+        <option value="">Выберите значение</option>
+    {% endif %}
+
+    {% for rec in model.groups %}
+        <div><option value="/schedule?group={{rec.name}}">{{rec.name}}</option></div>
+    {% endfor %}
+
+    </select>
+    </form></h2>
+
+    {% if model.group == null %}
+    <h2>Выберете курс</h2>
+    {% endif %}
+
+    {% if model.monday is not empty %}
+    <h2>Понедельник</h2>
+    	{% for rec in model.monday %}
+            <div><h3>{{rec.classNumber}}. {{rec.className}}</h3></div>
+        {% endfor %}
+    {% endif %}
+
+    {% if model.tuesday is not empty %}
+    <h2>Вторник</h2>
+    {% for rec in model.tuesday %}
+        <div><h3>{{rec.classNumber}}. {{rec.className}}</h3></div>
+    {% endfor %}
+    {% endif %}
+
+    {% if model.wednesday is not empty %}
+    <h2>Среда</h2>
+    {% for rec in model.wednesday %}
+        <div><h3>{{rec.classNumber}}. {{rec.className}}</h3></div>
+    {% endfor %}
+    {% endif %}
+
+    {% if model.thursday is not empty %}
+    <h2>Четверг</h2>
+    {% for rec in model.thursday %}
+        <div><h3>{{rec.classNumber}}. {{rec.className}}</h3></div>
+    {% endfor %}
+    {% endif %}
+
+    {% if model.friday is not empty %}
+    <h2>Пятница</h2>
+    {% for rec in model.friday %}
+        <div><h3>{{rec.classNumber}}. {{rec.className}}</h3></div>
+    {% endfor %}
+    {% endif %}
+
+    {% if model.saturday is not empty %}
+    <h2>Суббота</h2>
+    {% for rec in model.saturday %}
+        <div><h3>{{rec.classNumber}}. {{rec.className}}</h3></div>
+    {% endfor %}
+    {% endif %}
+
+{% endblock %}
