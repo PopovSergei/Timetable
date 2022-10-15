@@ -1,6 +1,0 @@
-{% extends "./layout.peb" %}
-{% block content %}
-    <p><h1> Добро пожаловать! </h1></p>
-    <div style="text-align: center;"><h2>Перейдите в раздел расписания и выберите интересующий вас курс</h2></div>
-    <body class="main">
-{% endblock %}
