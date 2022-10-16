@@ -22,6 +22,7 @@ class ShowScheduleHandler(
 ): HttpHandler {
     override fun invoke(request: Request): Response {
         val currentUser = currentUserLens(request)
+        val currentAccess = currentAccessLens(request)
         val groupLens = Query.string().optional("group")
         val group = groupLens(request)
 
@@ -41,6 +42,7 @@ class ShowScheduleHandler(
             saturday = schedules.filterGroupSaturday(group)
             return Response(Status.OK).with(htmlView of ScheduleVM(
                 currentUser,
+                currentAccess,
                 groups.fetchAll(),
                 group,
                 monday,
@@ -52,6 +54,7 @@ class ShowScheduleHandler(
         }
         return Response(Status.OK).with(htmlView of ScheduleVM(
             currentUser,
+            currentAccess,
             groups.fetchAll(),
             null,
             monday,

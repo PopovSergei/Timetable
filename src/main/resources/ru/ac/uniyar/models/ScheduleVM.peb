@@ -24,44 +24,60 @@
 
     {% if model.monday is not empty %}
     <h2>Понедельник</h2>
+
     	{% for rec in model.monday %}
             <div><h3>{{rec.classNumber}}. {{rec.className}}</h3></div>
         {% endfor %}
+
+        {% if model.currentAccess == "admin" %}
+            <a href="/schedule/edit?group={{model.group}}&dayOfWeek=monday" class="button">Редактировать</a>
+        {% endif %}
+
     {% endif %}
 
     {% if model.tuesday is not empty %}
     <h2>Вторник</h2>
+
     {% for rec in model.tuesday %}
         <div><h3>{{rec.classNumber}}. {{rec.className}}</h3></div>
     {% endfor %}
+
     {% endif %}
 
     {% if model.wednesday is not empty %}
     <h2>Среда</h2>
+
     {% for rec in model.wednesday %}
         <div><h3>{{rec.classNumber}}. {{rec.className}}</h3></div>
     {% endfor %}
+
     {% endif %}
 
     {% if model.thursday is not empty %}
     <h2>Четверг</h2>
+
     {% for rec in model.thursday %}
         <div><h3>{{rec.classNumber}}. {{rec.className}}</h3></div>
     {% endfor %}
+
     {% endif %}
 
     {% if model.friday is not empty %}
     <h2>Пятница</h2>
+
     {% for rec in model.friday %}
         <div><h3>{{rec.classNumber}}. {{rec.className}}</h3></div>
     {% endfor %}
+
     {% endif %}
 
     {% if model.saturday is not empty %}
     <h2>Суббота</h2>
+
     {% for rec in model.saturday %}
         <div><h3>{{rec.classNumber}}. {{rec.className}}</h3></div>
     {% endfor %}
+
     {% endif %}
 
 {% endblock %}
