@@ -27,6 +27,7 @@ import ru.ac.uniyar.filters.accessFilter
 import ru.ac.uniyar.filters.authenticationFilter
 import ru.ac.uniyar.filters.showErrorMessageFilter
 import ru.ac.uniyar.handlers.*
+import ru.ac.uniyar.routes.scheduleCreationRoute
 import ru.ac.uniyar.store.Settings
 import ru.ac.uniyar.store.SettingsFileError
 import kotlin.io.path.Path
@@ -50,6 +51,7 @@ fun app(
     "/main" bind GET to ShowMainHandler(currentUserLens, html),
 
     "/schedule" bind GET to ShowScheduleHandler(schedules, groups, currentUserLens, currentAccessLens, html),
+    "/schedule/edit" bind scheduleCreationRoute(currentUserLens, currentAccessLens, schedules, teachers, groups, html),
 
     "/login" bind GET to ShowLoginFormHandler(currentUserLens, users, html),
     "/login" bind Method.POST to AuthenticateUser(currentUserLens, authenticateUserViaLoginQuery, users, html, jwtTools),

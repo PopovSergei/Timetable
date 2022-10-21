@@ -1,0 +1,32 @@
+{% extends "./layout.peb" %}
+{% block content %}
+    <h1>Изменение расписания</h1>
+
+    {% if model.form.errors is not empty %}
+        <h3>Похоже, что вы допустили ошибку!</h3>
+    {% endif %}
+
+    <form method="POST">
+        {% if model.scheduleToEdit is not null %}
+            <h3>Предмет, аудитория: <textarea name="className">{{ model.scheduleToEdit.className }}</textarea>
+
+            <select name="teacherId">
+                <option value="{{ model.scheduleToEdit.teacher.id }}">{{ model.scheduleToEdit.teacher.name }}</option>
+                {% for rec in model.teachers %}
+                    <option value="{{rec.value.id}}">{{rec.value.name}}</option>
+                {% endfor %}
+            </select>
+        {% else %}
+            Предмет, аудитория: <textarea name="className" value=""></textarea>
+
+            <select name="teacherId">
+                <option value="">Выберете преподавателя</option>
+                {% for rec in model.teachers %}
+                    <option value="{{rec.value.id}}">{{rec.value.name}}</option>
+                {% endfor %}
+            </select>
+        {% endif %}</h3>
+
+        <input type="submit" value="Подтвердить" class="button">
+    </form>
+{% endblock %}

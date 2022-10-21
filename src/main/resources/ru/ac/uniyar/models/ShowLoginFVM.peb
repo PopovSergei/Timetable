@@ -3,7 +3,7 @@
     <h1>Вход</h1>
 
     {% if model.form.errors is not empty %}
-        <h3>Похоже, что вы допустили ошибку в имени или пароле!</h3>
+    <h3>Похоже, что вы допустили ошибку в имени или пароле!</h3>
     {% endif %}
 
     <form method="POST">
@@ -21,7 +21,7 @@
 
         </select>
 
-        Пароль <input type="password" name="password" required="required" value="{{ model.form.fields["password"] | first }}"></p>
+            Пароль <input type="password" name="password" required="required" value="{{ model.form.fields["password"] | first }}"></p>
 
         <input type="submit" value="Войти" class="button">
     </form>
