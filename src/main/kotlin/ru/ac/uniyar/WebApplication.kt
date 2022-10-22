@@ -51,7 +51,7 @@ fun app(
     "/main" bind GET to ShowMainHandler(currentUserLens, html),
 
     "/schedule" bind GET to ShowScheduleHandler(schedules, groups, currentUserLens, currentAccessLens, html),
-    "/schedule/edit" bind scheduleCreationRoute(currentUserLens, currentAccessLens, schedules, teachers, groups, html),
+    "/schedule/edit/{id}" bind scheduleCreationRoute(currentUserLens, currentAccessLens, schedules, teachers, html),
 
     "/login" bind GET to ShowLoginFormHandler(currentUserLens, users, html),
     "/login" bind Method.POST to AuthenticateUser(currentUserLens, authenticateUserViaLoginQuery, users, html, jwtTools),

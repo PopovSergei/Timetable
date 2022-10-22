@@ -2,6 +2,7 @@ package ru.ac.uniyar.domain.teacher
 
 import ru.ac.uniyar.domain.EMPTY_UUID
 import ru.ac.uniyar.domain.admin.Admin
+import ru.ac.uniyar.domain.schedule.Schedule
 import ru.ac.uniyar.domain.user.User
 import java.util.*
 
@@ -38,6 +39,14 @@ class Teachers {
 
     fun fetchOne(index: Int): Teacher? {
         return teachers.getOrNull(index)
+    }
+
+    fun fetchString(uuid: String?): Teacher? {
+        return try {
+            teachers.find { it.id == UUID.fromString(uuid) }
+        } catch (e: IllegalArgumentException) {
+            null
+        }
     }
 
     fun fetch(uuid: UUID): Teacher? {

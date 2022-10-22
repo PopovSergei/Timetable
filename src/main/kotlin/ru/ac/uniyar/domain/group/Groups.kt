@@ -1,6 +1,8 @@
 package ru.ac.uniyar.domain.group
 
 import ru.ac.uniyar.domain.EMPTY_UUID
+import ru.ac.uniyar.domain.schedule.Schedule
+import ru.ac.uniyar.domain.teacher.Teacher
 import java.util.*
 
 class Groups {
@@ -30,6 +32,13 @@ class Groups {
         return groups.getOrNull(index)
     }
 
+    fun fetchString(uuid: String?): Group? {
+        return try {
+            groups.find { it.id == UUID.fromString(uuid) }
+        } catch (e: IllegalArgumentException) {
+            null
+        }
+    }
     fun fetch(uuid: UUID): Group? {
         return groups.find { it.id == uuid }
     }

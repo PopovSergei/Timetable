@@ -7,6 +7,7 @@ import org.http4k.lens.BiDiLens
 import org.http4k.lens.Query
 import org.http4k.lens.string
 import org.http4k.template.ViewModel
+import ru.ac.uniyar.domain.group.Group
 import ru.ac.uniyar.domain.group.Groups
 import ru.ac.uniyar.domain.schedule.Schedule
 import ru.ac.uniyar.domain.schedule.Schedules
@@ -23,8 +24,8 @@ class ShowScheduleHandler(
     override fun invoke(request: Request): Response {
         val currentUser = currentUserLens(request)
         val currentAccess = currentAccessLens(request)
-        val groupLens = Query.string().optional("group")
-        val group = groupLens(request)
+        val groupLens = Query.string().optional("groupId")
+        val groupId = groupLens(request)
 
         var monday : List<Schedule> = emptyList()
         var tuesday : List<Schedule> = emptyList()
@@ -32,19 +33,23 @@ class ShowScheduleHandler(
         var thursday : List<Schedule> = emptyList()
         var friday : List<Schedule> = emptyList()
         var saturday : List<Schedule> = emptyList()
+        var group: Group? = null
+
+        if (groupId != null)
+            group = groups.fetchString(groupId)
 
         if (group != null) {
-            monday = schedules.filterGroupMonday(group)
-            tuesday = schedules.filterGroupTuesday(group)
-            wednesday = schedules.filterGroupWednesday(group)
-            thursday = schedules.filterGroupThursday(group)
-            friday = schedules.filterGroupFriday(group)
-            saturday = schedules.filterGroupSaturday(group)
+            monday = schedules.filterGroupMonday(group.id)
+            tuesday = schedules.filterGroupTuesday(group.id)
+            wednesday = schedules.filterGroupWednesday(group.id)
+            thursday = schedules.filterGroupThursday(group.id)
+            friday = schedules.filterGroupFriday(group.id)
+            saturday = schedules.filterGroupSaturday(group.id)
             return Response(Status.OK).with(htmlView of ScheduleVM(
                 currentUser,
                 currentAccess,
                 groups.fetchAll(),
-                group,
+                group.name,
                 monday,
                 tuesday,
                 wednesday,

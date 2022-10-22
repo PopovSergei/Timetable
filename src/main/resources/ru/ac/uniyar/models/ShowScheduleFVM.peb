@@ -7,25 +7,16 @@
     {% endif %}
 
     <form method="POST">
-        {% if model.scheduleToEdit is not null %}
-            <h3>Предмет, аудитория: <textarea name="className">{{ model.scheduleToEdit.className }}</textarea>
+        <h3>Предмет, аудитория: <textarea name="className">{{ model.scheduleToEdit.className }}</textarea>
 
-            <select name="teacherId">
-                <option value="{{ model.scheduleToEdit.teacher.id }}">{{ model.scheduleToEdit.teacher.name }}</option>
-                {% for rec in model.teachers %}
-                    <option value="{{rec.value.id}}">{{rec.value.name}}</option>
-                {% endfor %}
-            </select>
-        {% else %}
-            Предмет, аудитория: <textarea name="className" value=""></textarea>
-
-            <select name="teacherId">
-                <option value="">Выберете преподавателя</option>
-                {% for rec in model.teachers %}
-                    <option value="{{rec.value.id}}">{{rec.value.name}}</option>
-                {% endfor %}
-            </select>
-        {% endif %}</h3>
+        Преподаватель
+        <select name="teacherId">
+            <option value="{{ model.scheduleToEdit.teacher.id }}">{{ model.scheduleToEdit.teacher.name }}</option>
+            <option value="">Пустое значение</option>
+            {% for rec in model.teachers %}
+                <option value="{{rec.value.id}}">{{rec.value.name}}</option>
+            {% endfor %}
+        </select></h3>
 
         <input type="submit" value="Подтвердить" class="button">
     </form>

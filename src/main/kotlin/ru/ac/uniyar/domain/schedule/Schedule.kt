@@ -9,7 +9,7 @@ data class Schedule(
     val id: UUID,
     val group: Group,
     val dayOfWeek: DayOfWeek,
-    val classNumber: Int,
+    var classNumber: Int,
     var className: String,
-    var teacher: Teacher
+    var teacher: Teacher?
 )

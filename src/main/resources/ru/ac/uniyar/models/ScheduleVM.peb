@@ -6,13 +6,13 @@
     <select id="groupMenu" onchange = "window.location=document.forms[0].groupMenu.options[document.forms[0].groupMenu.selectedIndex].value">
 
     {% if model.group is not null %}
-        <option value="">{{model.group}}</option>
+        <option value="">{{ model.group }}</option>
     {% else %}
         <option value="">Выберите значение</option>
     {% endif %}
 
     {% for rec in model.groups %}
-        <div><option value="/schedule?group={{rec.name}}">{{rec.name}}</option></div>
+        <div><option value="/schedule?groupId={{ rec.id }}">{{ rec.name }}</option></div>
     {% endfor %}
 
     </select>
@@ -26,9 +26,9 @@
     <h2>Понедельник</h2>
 
     	{% for rec in model.monday %}
-            <div><h3>{{rec.classNumber}}. {{rec.className}}
+            <div><h3>{{ rec.classNumber }}. {{ rec.className }} {{ rec.teacher.name }}
                 {% if model.currentAccess == "admin" %}
-                    <a href="/schedule/edit?scheduleId={{ rec.id }}">Редактировать</a>
+                    <a href="/schedule/edit/{{ rec.id }}">Изменить</a>
                 {% endif %}</h3>
             </div>
         {% endfor %}
@@ -39,9 +39,9 @@
     <h2>Вторник</h2>
 
     {% for rec in model.tuesday %}
-        <div><h3>{{rec.classNumber}}. {{rec.className}}
+        <div><h3>{{ rec.classNumber }}. {{ rec.className }} {{ rec.teacher.name }}
             {% if model.currentAccess == "admin" %}
-                <a href="/schedule/edit?scheduleId={{ rec.id }}">Редактировать</a>
+                <a href="/schedule/edit/{{ rec.id }}">Изменить</a>
             {% endif %}</h3>
         </div>
     {% endfor %}
@@ -52,9 +52,9 @@
     <h2>Среда</h2>
 
     {% for rec in model.wednesday %}
-        <div><h3>{{rec.classNumber}}. {{rec.className}}
+        <div><h3>{{ rec.classNumber }}. {{ rec.className }} {{ rec.teacher.name }}
             {% if model.currentAccess == "admin" %}
-                <a href="/schedule/edit?scheduleId={{ rec.id }}">Редактировать</a>
+                <a href="/schedule/edit/{{ rec.id }}">Изменить</a>
             {% endif %}</h3>
         </div>
     {% endfor %}
@@ -65,9 +65,9 @@
     <h2>Четверг</h2>
 
     {% for rec in model.thursday %}
-        <div><h3>{{rec.classNumber}}. {{rec.className}}
+        <div><h3>{{ rec.classNumber }}. {{ rec.className }} {{ rec.teacher.name }}
             {% if model.currentAccess == "admin" %}
-                <a href="/schedule/edit?scheduleId={{ rec.id }}">Редактировать</a>
+                <a href="/schedule/edit/{{ rec.id }}">Изменить</a>
             {% endif %}</h3>
         </div>
     {% endfor %}
@@ -78,9 +78,9 @@
     <h2>Пятница</h2>
 
     {% for rec in model.friday %}
-        <div><h3>{{rec.classNumber}}. {{rec.className}}
+        <div><h3>{{ rec.classNumber }}. {{ rec.className }} {{ rec.teacher.name }}
             {% if model.currentAccess == "admin" %}
-                <a href="/schedule/edit?scheduleId={{ rec.id }}">Редактировать</a>
+                <a href="/schedule/edit/{{ rec.id }}">Изменить</a>
             {% endif %}</h3>
         </div>
     {% endfor %}
@@ -91,9 +91,9 @@
     <h2>Суббота</h2>
 
     {% for rec in model.saturday %}
-        <div><h3>{{rec.classNumber}}. {{rec.className}}
+        <div><h3>{{ rec.classNumber }}. {{ rec.className }} {{ rec.teacher.name }}
             {% if model.currentAccess == "admin" %}
-                <a href="/schedule/edit?scheduleId={{ rec.id }}">Редактировать</a>
+                <a href="/schedule/edit/{{ rec.id }}">Изменить</a>
             {% endif %}</h3>
         </div>
     {% endfor %}

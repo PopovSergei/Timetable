@@ -22,9 +22,9 @@ class InitSome {
         groups: Groups,
         settings: Settings,
     ) {
-        val user1 = User(UUID.randomUUID(), "Петя", hashPassword("123", settings.salt))
-        val user2 = User(UUID.randomUUID(), "Вася", hashPassword("123", settings.salt))
-        val user3 = User(UUID.randomUUID(), "Админ", hashPassword("123", settings.salt))
+        val user1 = User(UUID.randomUUID(), "Полетаев А.Ю.", hashPassword("123", settings.salt))
+        val user2 = User(UUID.randomUUID(), "Богомолов Ю.В.", hashPassword("123", settings.salt))
+        val user3 = User(UUID.randomUUID(), "Деканат", hashPassword("123", settings.salt))
         users.add(user1)
         users.add(user2)
         users.add(user3)
@@ -38,14 +38,14 @@ class InitSome {
         groups.add(Group(UUID.randomUUID(), "ИТ-1"))
         groups.add(Group(UUID.randomUUID(), "ПИЭ-1"))
 
-        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.MONDAY, 1, "Математика", teachers.fetchOne(1)!!))
-        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.MONDAY, 3, "Базы данных", teachers.fetchOne(0)!!))
-        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.MONDAY, 2, "Информатика", teachers.fetchOne(1)!!))
-        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(1)!!, DayOfWeek.MONDAY, 1, "Математика", teachers.fetchOne(1)!!))
-        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.TUESDAY, 1, "Математика", teachers.fetchOne(0)!!))
-        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.THURSDAY, 1, "Информатика", teachers.fetchOne(0)!!))
-        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.WEDNESDAY, 1, "Математика", teachers.fetchOne(1)!!))
-        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.FRIDAY, 1, "Информатика", teachers.fetchOne(0)!!))
-        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.SATURDAY, 1, "Математика", teachers.fetchOne(1)!!))
+        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.MONDAY, 1, "Математика, 220", teachers.fetchOne(1)!!))
+        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.MONDAY, 3, "Базы данных, 210", teachers.fetchOne(0)!!))
+        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.MONDAY, 2, "Информатика, 216", teachers.fetchOne(0)!!))
+        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(1)!!, DayOfWeek.MONDAY, 1, "Математика, 215", teachers.fetchOne(1)!!))
+        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.TUESDAY, 1, "Математика, 220", teachers.fetchOne(1)!!))
+        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.THURSDAY, 1, "Информатика, 210", teachers.fetchOne(0)!!))
+        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.WEDNESDAY, 1, "Математика, 219", teachers.fetchOne(1)!!))
+        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.FRIDAY, 1, "Информатика, 216", teachers.fetchOne(0)!!))
+        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.SATURDAY, 1, "Математика, 220", teachers.fetchOne(1)!!))
     }
 }
