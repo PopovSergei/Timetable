@@ -1,7 +1,7 @@
 package ru.ac.uniyar.domain.schedule
 
 import ru.ac.uniyar.domain.group.Group
-import ru.ac.uniyar.domain.teacher.Teacher
+import ru.ac.uniyar.domain.user.User
 import java.time.DayOfWeek
 import java.util.*
 
@@ -11,5 +11,5 @@ data class Schedule(
     val dayOfWeek: DayOfWeek,
     var classNumber: Int,
     var className: String,
-    var teacher: Teacher?
+    var teacher: User?
 )

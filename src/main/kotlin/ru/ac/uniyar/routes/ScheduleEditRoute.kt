@@ -7,35 +7,32 @@ import org.http4k.routing.path
 import org.http4k.routing.routes
 import org.http4k.template.ViewModel
 import ru.ac.uniyar.domain.schedule.Schedules
-import ru.ac.uniyar.domain.teacher.Teachers
 import ru.ac.uniyar.domain.user.User
+import ru.ac.uniyar.domain.user.Users
 import ru.ac.uniyar.models.ShowScheduleFVM
 
 fun scheduleCreationRoute(
     currentUserLens: BiDiLens<Request, User?>,
-    currentAccessLens: BiDiLens<Request, String?>,
+    users: Users,
     schedules: Schedules,
-    teachers: Teachers,
     htmlView: BiDiBodyLens<ViewModel>
 ) = routes(
-    "/" bind Method.GET to showScheduleEditForm(currentUserLens, currentAccessLens, schedules, teachers, htmlView),
-    "/" bind Method.POST to editScheduleWithLens(currentUserLens, currentAccessLens, schedules, teachers, htmlView)
+    "/" bind Method.GET to showScheduleEditForm(currentUserLens, users, schedules, htmlView),
+    "/" bind Method.POST to editScheduleWithLens(currentUserLens, users, schedules, htmlView)
 )
 
 fun showScheduleEditForm(
     currentUserLens: BiDiLens<Request, User?>,
-    currentAccessLens: BiDiLens<Request, String?>,
+    users: Users,
     schedules: Schedules,
-    teachers: Teachers,
     htmlView: BiDiBodyLens<ViewModel>
 ): HttpHandler = { request ->
     val currentUser = currentUserLens(request)
-    val currentAccess = currentAccessLens(request)
     val scheduleId = request.path("id").orEmpty()
 
-    if (currentAccess == "admin") {
+    if (currentUser?.isAdmin == true) {
         if (schedules.fetchString(scheduleId) != null) {
-            Response(Status.OK).with(htmlView of ShowScheduleFVM(currentUser, schedules.fetchString(scheduleId), teachers.fetchAll()))
+            Response(Status.OK).with(htmlView of ShowScheduleFVM(currentUser, schedules.fetchString(scheduleId), users.fetchTeachers()))
         } else {
             Response(Status.BAD_REQUEST)
         }
@@ -54,18 +51,16 @@ private val scheduleFormLens = Body.webForm(
 
 fun editScheduleWithLens(
     currentUserLens: BiDiLens<Request, User?>,
-    currentAccessLens: BiDiLens<Request, String?>,
+    users: Users,
     schedules: Schedules,
-    teachers: Teachers,
     htmlView: BiDiBodyLens<ViewModel>
 ): HttpHandler = { request ->
     val webForm = scheduleFormLens(request)
     val currentUser = currentUserLens(request)
-    val currentAccess = currentAccessLens(request)
     val scheduleId = request.path("id").orEmpty()
-    val teacher = teachers.fetchString(teacherIdFormLens(webForm))
+    val teacher = users.fetchString(teacherIdFormLens(webForm))
 
-    if (currentAccess == "admin") {
+    if (currentUser?.isAdmin == true) {
         if (schedules.fetchString(scheduleId) != null) {
             if(webForm.errors.isEmpty()) {
                 if (teacher != null) {
@@ -82,7 +77,7 @@ fun editScheduleWithLens(
                 val groupId = schedules.fetchString(scheduleId)!!.group.id
                 Response(Status.FOUND).header("Location", "/schedule?groupId=$groupId")
             } else {
-                Response(Status.OK).with(htmlView of ShowScheduleFVM(currentUser, schedules.fetchString(scheduleId), teachers.fetchAll(), webForm))
+                Response(Status.OK).with(htmlView of ShowScheduleFVM(currentUser, schedules.fetchString(scheduleId), users.fetchTeachers(), webForm))
             }
         } else {
             Response(Status.BAD_REQUEST)

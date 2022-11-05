@@ -19,20 +19,24 @@ class Users {
         while (toUuid().contains(user.id.toString()) || newId == EMPTY_UUID) {
             newId = UUID.randomUUID()
         }
-        users.add(User(newId, user.name, user.pass))
-    }
-
-    fun removeUser(id: String) {
-        users.remove(users.find { it.id.toString() == id })
-    }
-
-    fun fetchOne(index: Int): User? {
-        return users.getOrNull(index)
+        users.add(User(newId, user.name, user.pass, user.isAdmin, user.isTeacher))
     }
 
     fun fetch(uuid: UUID): User? {
         return users.find { it.id == uuid }
     }
 
-    fun fetchAll() : Iterable<IndexedValue<User>> = users.withIndex()
+    fun fetchString(uuid: String?): User? {
+        return try {
+            users.find { it.id == UUID.fromString(uuid) }
+        } catch (e: IllegalArgumentException) {
+            null
+        }
+    }
+
+    fun fetchTeachers() : List<User> {
+        return users.filter { it.isTeacher }
+    }
+
+    fun fetchAll() : List<User> = users
 }

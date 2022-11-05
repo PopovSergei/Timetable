@@ -5,7 +5,7 @@ import ru.ac.uniyar.domain.user.User
 
 class ShowLoginFVM(
     currentUser: User?,
-    val users: Iterable<IndexedValue<User>>,
+    val users: List<User>,
     val user: User?,
     val form: WebForm = WebForm()
 ) : AuthenticatedViewModel(currentUser)

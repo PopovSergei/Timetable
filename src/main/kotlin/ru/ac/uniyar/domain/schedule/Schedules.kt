@@ -2,7 +2,7 @@ package ru.ac.uniyar.domain.schedule
 
 import ru.ac.uniyar.domain.EMPTY_UUID
 import ru.ac.uniyar.domain.group.Group
-import ru.ac.uniyar.domain.teacher.Teacher
+import ru.ac.uniyar.domain.user.User
 import java.time.DayOfWeek
 import java.util.*
 
@@ -22,7 +22,7 @@ class Schedules {
         schedules.add(Schedule(newId, schedule.group, schedule.dayOfWeek, schedule.classNumber, schedule.className, schedule.teacher))
     }
 
-    fun update(schedule: Schedule, newClassName: String, newTeacher: Teacher?) {
+    fun update(schedule: Schedule, newClassName: String, newTeacher: User?) {
         for(i in 0 until fetchAll().count()) {
             if (schedules[i].id == schedule.id) {
                 if (newTeacher != null)

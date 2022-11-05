@@ -1,8 +1,6 @@
 package ru.ac.uniyar.domain.group
 
 import ru.ac.uniyar.domain.EMPTY_UUID
-import ru.ac.uniyar.domain.schedule.Schedule
-import ru.ac.uniyar.domain.teacher.Teacher
 import java.util.*
 
 class Groups {
@@ -22,10 +20,6 @@ class Groups {
             newId = UUID.randomUUID()
         }
         groups.add(Group(newId, group.name))
-    }
-
-    fun removeGroup(id: String) {
-        groups.remove(groups.find { it.id.toString() == id })
     }
 
     fun fetchOne(index: Int): Group? {

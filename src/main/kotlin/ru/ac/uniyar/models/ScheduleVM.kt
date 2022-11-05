@@ -6,7 +6,6 @@ import ru.ac.uniyar.domain.user.User
 
 class ScheduleVM(
     currentUser: User?,
-    val currentAccess: String?,
     val groups: List<Group>,
     val group: String?,
     val monday: List<Schedule>,

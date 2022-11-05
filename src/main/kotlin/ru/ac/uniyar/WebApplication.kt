@@ -13,17 +13,13 @@ import org.http4k.template.PebbleTemplates
 import org.http4k.template.ViewModel
 import org.http4k.template.viewModel
 import ru.ac.uniyar.computations.AuthenticateUserViaLoginQuery
-import ru.ac.uniyar.computations.FetchAccessViaToken
 import ru.ac.uniyar.computations.FetchUserViaToken
 import ru.ac.uniyar.domain.InitSome
-import ru.ac.uniyar.domain.admin.Admins
 import ru.ac.uniyar.domain.group.Groups
 import ru.ac.uniyar.domain.schedule.Schedules
-import ru.ac.uniyar.domain.teacher.Teachers
 import ru.ac.uniyar.domain.user.User
 import ru.ac.uniyar.domain.user.Users
 import ru.ac.uniyar.filters.JwtTools
-import ru.ac.uniyar.filters.accessFilter
 import ru.ac.uniyar.filters.authenticationFilter
 import ru.ac.uniyar.filters.showErrorMessageFilter
 import ru.ac.uniyar.handlers.*
@@ -34,13 +30,10 @@ import kotlin.io.path.Path
 
 fun app(
     users: Users,
-    teachers: Teachers,
-    admins: Admins,
     schedules: Schedules,
     groups: Groups,
     settings: Settings,
     currentUserLens: BiDiLens<Request, User?>,
-    currentAccessLens: BiDiLens<Request, String?>,
     authenticateUserViaLoginQuery: AuthenticateUserViaLoginQuery,
     html: BiDiBodyLens<ViewModel>,
     jwtTools: JwtTools
@@ -50,8 +43,8 @@ fun app(
     "/" bind GET to RedirectToMainHandler(),
     "/main" bind GET to ShowMainHandler(currentUserLens, html),
 
-    "/schedule" bind GET to ShowScheduleHandler(schedules, groups, currentUserLens, currentAccessLens, html),
-    "/schedule/edit/{id}" bind scheduleCreationRoute(currentUserLens, currentAccessLens, schedules, teachers, html),
+    "/schedule" bind GET to ShowScheduleHandler(schedules, groups, currentUserLens, html),
+    "/schedule/edit/{id}" bind scheduleCreationRoute(currentUserLens, users, schedules, html),
 
     "/login" bind GET to ShowLoginFormHandler(currentUserLens, users, html),
     "/login" bind Method.POST to AuthenticateUser(currentUserLens, authenticateUserViaLoginQuery, users, html, jwtTools),
@@ -69,19 +62,15 @@ fun main() {
     val schedules = Schedules()
     val groups = Groups()
     val users = Users()
-    val teachers = Teachers()
-    val admins = Admins()
-    InitSome().initSome(users, teachers, admins, schedules, groups, settings)
+    InitSome().initSome(users, schedules, groups, settings)
 
     /** Пароль от всех аккаунтов - 123 **/
 
     val contexts = RequestContexts()
     val currentUserLens = RequestContextKey.optional<User>(contexts)
-    val currentAccessLens = RequestContextKey.optional<String>(contexts)
 
     val authenticateUserViaLoginQuery = AuthenticateUserViaLoginQuery(users, settings)
     val fetchUserViaToken = FetchUserViaToken(users)
-    val fetchAccessViaToken = FetchAccessViaToken(teachers, admins)
 
     val jwtTools = JwtTools(settings.salt, "ru.ac.uniyar.WebApplication")
 
@@ -91,8 +80,7 @@ fun main() {
         ServerFilters.InitialiseRequestContext(contexts)
             .then(showErrorMessageFilter(currentUserLens, renderer))
             .then(authenticationFilter(currentUserLens, fetchUserViaToken, jwtTools))
-            .then(accessFilter(currentAccessLens, fetchAccessViaToken, jwtTools))
-            .then(app(users, teachers, admins, schedules, groups, settings, currentUserLens, currentAccessLens, authenticateUserViaLoginQuery, htmlView, jwtTools))
+            .then(app(users, schedules, groups, settings, currentUserLens, authenticateUserViaLoginQuery, htmlView, jwtTools))
     val server = printingApp.asServer(Undertow(9000)).start()
     println("Server started on http://localhost:" + server.port())
 }

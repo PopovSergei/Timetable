@@ -14,7 +14,7 @@
             <option value="{{ model.scheduleToEdit.teacher.id }}">{{ model.scheduleToEdit.teacher.name }}</option>
             <option value="">Пустое значение</option>
             {% for rec in model.teachers %}
-                <option value="{{rec.value.id}}">{{rec.value.name}}</option>
+                <option value="{{rec.id}}">{{rec.name}}</option>
             {% endfor %}
         </select></h3>
 

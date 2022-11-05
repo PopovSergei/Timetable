@@ -16,7 +16,7 @@
             {% endif %}
 
             {% for rec in model.users %}
-                <option value="{{rec.value.id}}">{{rec.value.name}}</option>
+                <option value="{{rec.id}}">{{rec.name}}</option>
             {% endfor %}
 
         </select>

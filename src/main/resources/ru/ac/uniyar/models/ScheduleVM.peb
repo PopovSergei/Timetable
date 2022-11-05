@@ -27,7 +27,7 @@
 
     	{% for rec in model.monday %}
             <div><h3>{{ rec.classNumber }}. {{ rec.className }} {{ rec.teacher.name }}
-                {% if model.currentAccess == "admin" %}
+                {% if model.currentUser.isAdmin %}
                     <a href="/schedule/edit/{{ rec.id }}">Изменить</a>
                 {% endif %}</h3>
             </div>
@@ -40,7 +40,7 @@
 
     {% for rec in model.tuesday %}
         <div><h3>{{ rec.classNumber }}. {{ rec.className }} {{ rec.teacher.name }}
-            {% if model.currentAccess == "admin" %}
+            {% if model.currentUser.isAdmin %}
                 <a href="/schedule/edit/{{ rec.id }}">Изменить</a>
             {% endif %}</h3>
         </div>
@@ -53,7 +53,7 @@
 
     {% for rec in model.wednesday %}
         <div><h3>{{ rec.classNumber }}. {{ rec.className }} {{ rec.teacher.name }}
-            {% if model.currentAccess == "admin" %}
+            {% if model.currentUser.isAdmin %}
                 <a href="/schedule/edit/{{ rec.id }}">Изменить</a>
             {% endif %}</h3>
         </div>
@@ -66,7 +66,7 @@
 
     {% for rec in model.thursday %}
         <div><h3>{{ rec.classNumber }}. {{ rec.className }} {{ rec.teacher.name }}
-            {% if model.currentAccess == "admin" %}
+            {% if model.currentUser.isAdmin %}
                 <a href="/schedule/edit/{{ rec.id }}">Изменить</a>
             {% endif %}</h3>
         </div>
@@ -79,7 +79,7 @@
 
     {% for rec in model.friday %}
         <div><h3>{{ rec.classNumber }}. {{ rec.className }} {{ rec.teacher.name }}
-            {% if model.currentAccess == "admin" %}
+            {% if model.currentUser.isAdmin %}
                 <a href="/schedule/edit/{{ rec.id }}">Изменить</a>
             {% endif %}</h3>
         </div>
@@ -92,7 +92,7 @@
 
     {% for rec in model.saturday %}
         <div><h3>{{ rec.classNumber }}. {{ rec.className }} {{ rec.teacher.name }}
-            {% if model.currentAccess == "admin" %}
+            {% if model.currentUser.isAdmin %}
                 <a href="/schedule/edit/{{ rec.id }}">Изменить</a>
             {% endif %}</h3>
         </div>

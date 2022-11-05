@@ -18,12 +18,10 @@ class ShowScheduleHandler(
     private val schedules: Schedules,
     private val groups: Groups,
     private val currentUserLens: BiDiLens<Request, User?>,
-    private val currentAccessLens: BiDiLens<Request, String?>,
     private val htmlView: BiDiBodyLens<ViewModel>
 ): HttpHandler {
     override fun invoke(request: Request): Response {
         val currentUser = currentUserLens(request)
-        val currentAccess = currentAccessLens(request)
         val groupLens = Query.string().optional("groupId")
         val groupId = groupLens(request)
 
@@ -47,7 +45,6 @@ class ShowScheduleHandler(
             saturday = schedules.filterGroupSaturday(group.id)
             return Response(Status.OK).with(htmlView of ScheduleVM(
                 currentUser,
-                currentAccess,
                 groups.fetchAll(),
                 group.name,
                 monday,
@@ -59,7 +56,6 @@ class ShowScheduleHandler(
         }
         return Response(Status.OK).with(htmlView of ScheduleVM(
             currentUser,
-            currentAccess,
             groups.fetchAll(),
             null,
             monday,
