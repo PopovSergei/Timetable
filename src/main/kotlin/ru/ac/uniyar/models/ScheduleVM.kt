@@ -7,7 +7,7 @@ import ru.ac.uniyar.domain.user.User
 class ScheduleVM(
     currentUser: User?,
     val groups: List<Group>,
-    val group: String?,
+    val group: Group?,
     val monday: List<Schedule>,
     val tuesday: List<Schedule>,
     val wednesday: List<Schedule>,

@@ -1,0 +1,22 @@
+{% extends "./layout.peb" %}
+{% block content %}
+    <h1>Добавление пары</h1>
+
+    {% if model.form.errors is not empty %}
+        <h3>Похоже, что вы допустили ошибку!</h3>
+    {% endif %}
+
+    <form method="POST">
+        <h3>Предмет, аудитория: <textarea name="className"></textarea>
+
+        Преподаватель
+        <select name="teacherId">
+            <option value="">Пустое значение</option>
+            {% for rec in model.teachers %}
+                <option value="{{rec.id}}">{{rec.name}}</option>
+            {% endfor %}
+        </select></h3>
+
+        <input type="submit" value="Подтвердить" class="button">
+    </form>
+{% endblock %}

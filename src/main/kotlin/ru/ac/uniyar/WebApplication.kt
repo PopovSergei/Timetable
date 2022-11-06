@@ -23,6 +23,7 @@ import ru.ac.uniyar.filters.JwtTools
 import ru.ac.uniyar.filters.authenticationFilter
 import ru.ac.uniyar.filters.showErrorMessageFilter
 import ru.ac.uniyar.handlers.*
+import ru.ac.uniyar.routes.scheduleAddRoute
 import ru.ac.uniyar.routes.scheduleCreationRoute
 import ru.ac.uniyar.store.Settings
 import ru.ac.uniyar.store.SettingsFileError
@@ -45,6 +46,7 @@ fun app(
 
     "/schedule" bind GET to ShowScheduleHandler(schedules, groups, currentUserLens, html),
     "/schedule/edit/{id}" bind scheduleCreationRoute(currentUserLens, users, schedules, html),
+    "/schedule/add" bind scheduleAddRoute(currentUserLens, users, schedules, groups, html),
 
     "/login" bind GET to ShowLoginFormHandler(currentUserLens, users, html),
     "/login" bind Method.POST to AuthenticateUser(currentUserLens, authenticateUserViaLoginQuery, users, html, jwtTools),

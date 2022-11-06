@@ -46,7 +46,7 @@ class ShowScheduleHandler(
             return Response(Status.OK).with(htmlView of ScheduleVM(
                 currentUser,
                 groups.fetchAll(),
-                group.name,
+                group,
                 monday,
                 tuesday,
                 wednesday,

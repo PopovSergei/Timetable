@@ -72,7 +72,7 @@ class Schedules {
                     maxNumber = schedules[i].classNumber
             }
         }
-        return maxNumber
+        return maxNumber + 1
     }
 
     fun fetchString(uuid: String?): Schedule? {
@@ -87,5 +87,5 @@ class Schedules {
         return schedules.find { it.id == uuid }
     }
 
-    fun fetchAll() : Iterable<IndexedValue<Schedule>> = schedules.withIndex()
+    fun fetchAll() : List<Schedule> = schedules
 }
