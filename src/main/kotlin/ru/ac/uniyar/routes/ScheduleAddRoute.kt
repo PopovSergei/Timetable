@@ -29,7 +29,7 @@ fun scheduleAddRoute(
 private val groupIdLens = Query.string().optional("group")
 private val dayOfWeekLens = Query.string().optional("dayOfWeek")
 
-fun isDayOfWeekCorrect(dayOfWeek: String?): Boolean {
+private fun isDayOfWeekCorrect(dayOfWeek: String?): Boolean {
     try {
         if (dayOfWeek != null) {
             DayOfWeek.valueOf(dayOfWeek)
@@ -41,8 +41,7 @@ fun isDayOfWeekCorrect(dayOfWeek: String?): Boolean {
     }
     return true
 }
-
-fun isGroupIdCorrect(groups: Groups, groupId: String?): Boolean {
+private fun isGroupIdCorrect(groups: Groups, groupId: String?): Boolean {
     return groups.fetchString(groupId) != null
 }
 
@@ -96,7 +95,7 @@ fun addScheduleWithLens(
                         UUID.randomUUID(),
                         groups.fetchString(groupId)!!,
                         DayOfWeek.valueOf(dayOfWeek!!),
-                        schedules.findLastClassNumber(groups.fetchString(groupId), DayOfWeek.valueOf(dayOfWeek)),
+                        schedules.findLastClassNumber(groups.fetchString(groupId), DayOfWeek.valueOf(dayOfWeek)) + 1,
                         classNameFormLens(webForm),
                         teacher))
                 } else {
@@ -104,7 +103,7 @@ fun addScheduleWithLens(
                         UUID.randomUUID(),
                         groups.fetchString(groupId)!!,
                         DayOfWeek.valueOf(dayOfWeek!!),
-                        schedules.findLastClassNumber(groups.fetchString(groupId), DayOfWeek.valueOf(dayOfWeek)),
+                        schedules.findLastClassNumber(groups.fetchString(groupId), DayOfWeek.valueOf(dayOfWeek)) + 1,
                         classNameFormLens(webForm),
                         null))
                 }

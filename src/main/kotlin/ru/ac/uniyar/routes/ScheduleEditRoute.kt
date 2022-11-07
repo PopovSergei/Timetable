@@ -9,7 +9,7 @@ import org.http4k.template.ViewModel
 import ru.ac.uniyar.domain.schedule.Schedules
 import ru.ac.uniyar.domain.user.User
 import ru.ac.uniyar.domain.user.Users
-import ru.ac.uniyar.models.ShowScheduleFVM
+import ru.ac.uniyar.models.ShowScheduleEditFVM
 
 fun scheduleCreationRoute(
     currentUserLens: BiDiLens<Request, User?>,
@@ -32,7 +32,7 @@ fun showScheduleEditForm(
 
     if (currentUser?.isAdmin == true) {
         if (schedules.fetchString(scheduleId) != null) {
-            Response(Status.OK).with(htmlView of ShowScheduleFVM(currentUser, schedules.fetchString(scheduleId), users.fetchTeachers()))
+            Response(Status.OK).with(htmlView of ShowScheduleEditFVM(currentUser, schedules.fetchString(scheduleId), users.fetchTeachers()))
         } else {
             Response(Status.BAD_REQUEST)
         }
@@ -77,7 +77,7 @@ fun editScheduleWithLens(
                 val groupId = schedules.fetchString(scheduleId)!!.group.id
                 Response(Status.FOUND).header("Location", "/schedule?groupId=$groupId")
             } else {
-                Response(Status.OK).with(htmlView of ShowScheduleFVM(currentUser, schedules.fetchString(scheduleId), users.fetchTeachers(), webForm))
+                Response(Status.OK).with(htmlView of ShowScheduleEditFVM(currentUser, schedules.fetchString(scheduleId), users.fetchTeachers(), webForm))
             }
         } else {
             Response(Status.BAD_REQUEST)

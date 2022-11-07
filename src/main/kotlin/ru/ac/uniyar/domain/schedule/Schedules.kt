@@ -45,6 +45,13 @@ class Schedules {
         }
     }
 
+    fun remove(group: Group?, dayOfWeek: DayOfWeek) {
+        val lastClass = findLastClassNumber(group, dayOfWeek)
+        if (lastClass > 0) {
+            schedules.removeIf { it.group == group && it.dayOfWeek == dayOfWeek && it.classNumber == lastClass }
+        }
+    }
+
     fun filterGroupMonday(groupId: UUID): List<Schedule> {
         return schedules.filter { it.group.id == groupId && it.dayOfWeek == DayOfWeek.MONDAY }.sortedBy { it.classNumber }
     }
@@ -72,7 +79,7 @@ class Schedules {
                     maxNumber = schedules[i].classNumber
             }
         }
-        return maxNumber + 1
+        return maxNumber
     }
 
     fun fetchString(uuid: String?): Schedule? {

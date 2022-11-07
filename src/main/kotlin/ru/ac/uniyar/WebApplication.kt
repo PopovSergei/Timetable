@@ -33,7 +33,6 @@ fun app(
     users: Users,
     schedules: Schedules,
     groups: Groups,
-    settings: Settings,
     currentUserLens: BiDiLens<Request, User?>,
     authenticateUserViaLoginQuery: AuthenticateUserViaLoginQuery,
     html: BiDiBodyLens<ViewModel>,
@@ -44,9 +43,10 @@ fun app(
     "/" bind GET to RedirectToMainHandler(),
     "/main" bind GET to ShowMainHandler(currentUserLens, html),
 
-    "/schedule" bind GET to ShowScheduleHandler(schedules, groups, currentUserLens, html),
+    "/schedule" bind GET to ShowScheduleHandler(currentUserLens, schedules, groups, html),
     "/schedule/edit/{id}" bind scheduleCreationRoute(currentUserLens, users, schedules, html),
     "/schedule/add" bind scheduleAddRoute(currentUserLens, users, schedules, groups, html),
+    "/schedule/remove" bind GET to ScheduleRemoveHandler(currentUserLens, schedules, groups),
 
     "/login" bind GET to ShowLoginFormHandler(currentUserLens, users, html),
     "/login" bind Method.POST to AuthenticateUser(currentUserLens, authenticateUserViaLoginQuery, users, html, jwtTools),
@@ -82,7 +82,7 @@ fun main() {
         ServerFilters.InitialiseRequestContext(contexts)
             .then(showErrorMessageFilter(currentUserLens, renderer))
             .then(authenticationFilter(currentUserLens, fetchUserViaToken, jwtTools))
-            .then(app(users, schedules, groups, settings, currentUserLens, authenticateUserViaLoginQuery, htmlView, jwtTools))
+            .then(app(users, schedules, groups, currentUserLens, authenticateUserViaLoginQuery, htmlView, jwtTools))
     val server = printingApp.asServer(Undertow(9000)).start()
     println("Server started on http://localhost:" + server.port())
 }

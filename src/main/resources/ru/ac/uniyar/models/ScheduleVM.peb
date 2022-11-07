@@ -22,7 +22,7 @@
     <h2>Выберете курс</h2>
     {% endif %}
 
-    {% if model.monday is not empty or model.currentUser.isAdmin %}
+    {% if model.monday is not empty or model.currentUser.isAdmin and model.group != null %}
     <h2>Понедельник</h2>
 
     	{% for rec in model.monday %}
@@ -34,14 +34,15 @@
         {% endfor %}
 
         {% if model.currentUser.isAdmin %}
-            <h3><a href="/schedule/add?group={{ model.group.id }}&dayOfWeek=MONDAY">Добавить пару</a></h3>
+            <h3><a href="/schedule/add?group={{ model.group.id }}&dayOfWeek=MONDAY">Добавить пару </a>|
+                <a href="/schedule/remove?group={{ model.group.id }}&dayOfWeek=MONDAY">Удалить пару</a></h3>
         {% endif %}
 
     {% endif %}
 
 
 
-    {% if model.tuesday is not empty or model.currentUser.isAdmin %}
+    {% if model.tuesday is not empty or model.currentUser.isAdmin and model.group != null %}
     <h2>Вторник</h2>
 
     {% for rec in model.tuesday %}
@@ -53,14 +54,15 @@
     {% endfor %}
 
     {% if model.currentUser.isAdmin %}
-        <h3><a href="/schedule/add?group={{ model.group.id }}&dayOfWeek=TUESDAY">Добавить пару</a></h3>
+        <h3><a href="/schedule/add?group={{ model.group.id }}&dayOfWeek=TUESDAY">Добавить пару </a>|
+            <a href="/schedule/remove?group={{ model.group.id }}&dayOfWeek=TUESDAY">Удалить пару</a></h3>
     {% endif %}
 
     {% endif %}
 
 
 
-    {% if model.wednesday is not empty or model.currentUser.isAdmin %}
+    {% if model.wednesday is not empty or model.currentUser.isAdmin and model.group != null %}
     <h2>Среда</h2>
 
     {% for rec in model.wednesday %}
@@ -72,14 +74,15 @@
     {% endfor %}
 
     {% if model.currentUser.isAdmin %}
-        <h3><a href="/schedule/add?group={{ model.group.id }}&dayOfWeek=WEDNESDAY">Добавить пару</a></h3>
+        <h3><a href="/schedule/add?group={{ model.group.id }}&dayOfWeek=WEDNESDAY">Добавить пару </a>|
+            <a href="/schedule/remove?group={{ model.group.id }}&dayOfWeek=WEDNESDAY">Удалить пару</a></h3>
     {% endif %}
 
     {% endif %}
 
 
 
-    {% if model.thursday is not empty or model.currentUser.isAdmin %}
+    {% if model.thursday is not empty or model.currentUser.isAdmin and model.group != null %}
     <h2>Четверг</h2>
 
     {% for rec in model.thursday %}
@@ -91,14 +94,15 @@
     {% endfor %}
 
     {% if model.currentUser.isAdmin %}
-        <h3><a href="/schedule/add?group={{ model.group.id }}&dayOfWeek=THURSDAY">Добавить пару</a></h3>
+        <h3><a href="/schedule/add?group={{ model.group.id }}&dayOfWeek=THURSDAY">Добавить пару </a>|
+            <a href="/schedule/remove?group={{ model.group.id }}&dayOfWeek=THURSDAY">Удалить пару</a></h3>
     {% endif %}
 
     {% endif %}
 
 
 
-    {% if model.friday is not empty or model.currentUser.isAdmin %}
+    {% if model.friday is not empty or model.currentUser.isAdmin and model.group != null %}
     <h2>Пятница</h2>
 
     {% for rec in model.friday %}
@@ -110,14 +114,15 @@
     {% endfor %}
 
     {% if model.currentUser.isAdmin %}
-        <h3><a href="/schedule/add?group={{ model.group.id }}&dayOfWeek=FRIDAY">Добавить пару</a></h3>
+        <h3><a href="/schedule/add?group={{ model.group.id }}&dayOfWeek=FRIDAY">Добавить пару </a>|
+            <a href="/schedule/remove?group={{ model.group.id }}&dayOfWeek=FRIDAY">Удалить пару</a></h3>
     {% endif %}
 
     {% endif %}
 
 
 
-    {% if model.saturday is not empty or model.currentUser.isAdmin %}
+    {% if model.saturday is not empty or model.currentUser.isAdmin and model.group != null %}
     <h2>Суббота</h2>
 
     {% for rec in model.saturday %}
@@ -129,7 +134,8 @@
     {% endfor %}
 
     {% if model.currentUser.isAdmin %}
-        <h3><a href="/schedule/add?group={{ model.group.id }}&dayOfWeek=SATURDAY">Добавить пару</a></h3>
+        <h3><a href="/schedule/add?group={{ model.group.id }}&dayOfWeek=SATURDAY">Добавить пару </a>|
+            <a href="/schedule/remove?group={{ model.group.id }}&dayOfWeek=SATURDAY">Удалить пару</a></h3>
     {% endif %}
 
     {% endif %}
