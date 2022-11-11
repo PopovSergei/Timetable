@@ -1,6 +1,22 @@
+@font-face{
+    font-family: 'neutral_faceregular';
+        src: url('neutralface-webfont.woff2') format('woff2'),
+             url('neutralface-webfont.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+
+}
+
+@font-face{
+    font-family: 'NeutralFace-Bold';
+    src: url(/NeutralFace-Bold.otf);
+    font-weight: bold;
+    font-style: normal;
+}
+
 .top-bar{
     background-color: #05386B;
-    font-family: "Comic Sans MS", sans-serif;
+    font-family: neutral_faceregular, Comic Sans MS;
     font-size: 20px;
     color: #05386B;
 }
@@ -26,7 +42,7 @@ body.main {
     text-decoration: none;
     cursor: pointer;
     font-size: 16px;
-    font-family: Roboto, Verdana, Tahoma, sans-serif;
+    font-family: NeutralFace-Bold, Roboto, Verdana, Tahoma;
     padding: 12px 16px;
     border-radius: 100px;
     color: #fff;
@@ -42,12 +58,12 @@ body.main {
     background: #1481d7;
 }
 p {
-    font-family: "Comic Sans MS", sans-serif;
+    font-family: NeutralFace;
 }
 
 h1 {
     margin: 15px 0;
-    font-family: Verdana, sans-serif;
+    font-family: NeutralFace, Verdana;
     font-size: 35px;
     letter-spacing: 2px;
     color: #05386B;
