@@ -6,6 +6,7 @@ import org.http4k.lens.BiDiBodyLens
 import org.http4k.lens.BiDiLens
 import org.http4k.lens.Query
 import org.http4k.lens.string
+import org.http4k.routing.path
 import org.http4k.template.ViewModel
 import ru.ac.uniyar.domain.group.Group
 import ru.ac.uniyar.domain.group.Groups
@@ -69,37 +70,19 @@ class ShowScheduleHandler(
     }
 }
 
-private fun isDayOfWeekCorrect(dayOfWeek: String?): Boolean {
-    try {
-        if (dayOfWeek != null) {
-            DayOfWeek.valueOf(dayOfWeek)
-        } else {
-            return false
-        }
-    } catch (e: IllegalArgumentException) {
-        return false
-    }
-    return true
-}
-private fun isGroupIdCorrect(groups: Groups, groupId: String?): Boolean {
-    return groups.fetchString(groupId) != null
-}
-
 class ScheduleRemoveHandler(
     private val currentUserLens: BiDiLens<Request, User?>,
-    private val schedules: Schedules,
-    private val groups: Groups
+    private val schedules: Schedules
 ): HttpHandler {
     override fun invoke(request: Request): Response {
         val currentUser = currentUserLens(request)
-        val groupIdLens = Query.string().optional("group")
-        val dayOfWeekLens = Query.string().optional("dayOfWeek")
-        val groupId = groupIdLens(request)
-        val dayOfWeek = dayOfWeekLens(request)
+        val scheduleId = request.path("id").orEmpty()
+        val schedule = schedules.fetchString(scheduleId)
 
         return if (currentUser?.isAdmin == true) {
-            if (isGroupIdCorrect(groups, groupId) && isDayOfWeekCorrect(dayOfWeek)) {
-                schedules.remove(groups.fetchString(groupId), DayOfWeek.valueOf(dayOfWeek!!))
+            if (schedule != null) {
+                schedules.remove(schedule)
+                val groupId = schedule.group.id
                 Response(Status.FOUND).header("Location", "/schedule?groupId=$groupId")
             } else {
                 Response(Status.BAD_REQUEST)

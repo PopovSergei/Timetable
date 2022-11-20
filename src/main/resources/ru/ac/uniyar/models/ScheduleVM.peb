@@ -28,14 +28,14 @@
     	{% for rec in model.monday %}
             <div><h3>{{ rec.classNumber }}. {{ rec.className }} {{ rec.teacher.name }}
                 {% if model.currentUser.isAdmin %}
-                    <a href="/schedule/edit/{{ rec.id }}">Изменить</a>
+                    <a href="/schedule/edit/{{ rec.id }}">Изменить </a>|
+                    <a href="/schedule/remove/{{ rec.id }}">Удалить</a>
                 {% endif %}</h3>
             </div>
         {% endfor %}
 
         {% if model.currentUser.isAdmin %}
-            <h3><a href="/schedule/add?group={{ model.group.id }}&dayOfWeek=MONDAY">Добавить пару </a>|
-                <a href="/schedule/remove?group={{ model.group.id }}&dayOfWeek=MONDAY">Удалить пару</a></h3>
+            <h3><a href="/schedule/add?group={{ model.group.id }}&dayOfWeek=MONDAY">Добавить пару</a></h3>
         {% endif %}
 
     {% endif %}
@@ -48,14 +48,14 @@
     {% for rec in model.tuesday %}
         <div><h3>{{ rec.classNumber }}. {{ rec.className }} {{ rec.teacher.name }}
             {% if model.currentUser.isAdmin %}
-                <a href="/schedule/edit/{{ rec.id }}">Изменить</a>
+                <a href="/schedule/edit/{{ rec.id }}">Изменить</a>|
+                <a href="/schedule/remove/{{ rec.id }}">Удалить</a>
             {% endif %}</h3>
         </div>
     {% endfor %}
 
     {% if model.currentUser.isAdmin %}
-        <h3><a href="/schedule/add?group={{ model.group.id }}&dayOfWeek=TUESDAY">Добавить пару </a>|
-            <a href="/schedule/remove?group={{ model.group.id }}&dayOfWeek=TUESDAY">Удалить пару</a></h3>
+        <h3><a href="/schedule/add?group={{ model.group.id }}&dayOfWeek=TUESDAY">Добавить пару</a></h3>
     {% endif %}
 
     {% endif %}
@@ -68,14 +68,14 @@
     {% for rec in model.wednesday %}
         <div><h3>{{ rec.classNumber }}. {{ rec.className }} {{ rec.teacher.name }}
             {% if model.currentUser.isAdmin %}
-                <a href="/schedule/edit/{{ rec.id }}">Изменить</a>
+                <a href="/schedule/edit/{{ rec.id }}">Изменить</a>|
+                <a href="/schedule/remove/{{ rec.id }}">Удалить</a>
             {% endif %}</h3>
         </div>
     {% endfor %}
 
     {% if model.currentUser.isAdmin %}
-        <h3><a href="/schedule/add?group={{ model.group.id }}&dayOfWeek=WEDNESDAY">Добавить пару </a>|
-            <a href="/schedule/remove?group={{ model.group.id }}&dayOfWeek=WEDNESDAY">Удалить пару</a></h3>
+        <h3><a href="/schedule/add?group={{ model.group.id }}&dayOfWeek=WEDNESDAY">Добавить пару</a></h3>
     {% endif %}
 
     {% endif %}
@@ -88,14 +88,14 @@
     {% for rec in model.thursday %}
         <div><h3>{{ rec.classNumber }}. {{ rec.className }} {{ rec.teacher.name }}
             {% if model.currentUser.isAdmin %}
-                <a href="/schedule/edit/{{ rec.id }}">Изменить</a>
+                <a href="/schedule/edit/{{ rec.id }}">Изменить</a>|
+                <a href="/schedule/remove/{{ rec.id }}">Удалить</a>
             {% endif %}</h3>
         </div>
     {% endfor %}
 
     {% if model.currentUser.isAdmin %}
-        <h3><a href="/schedule/add?group={{ model.group.id }}&dayOfWeek=THURSDAY">Добавить пару </a>|
-            <a href="/schedule/remove?group={{ model.group.id }}&dayOfWeek=THURSDAY">Удалить пару</a></h3>
+        <h3><a href="/schedule/add?group={{ model.group.id }}&dayOfWeek=THURSDAY">Добавить пару</a></h3>
     {% endif %}
 
     {% endif %}
@@ -108,14 +108,14 @@
     {% for rec in model.friday %}
         <div><h3>{{ rec.classNumber }}. {{ rec.className }} {{ rec.teacher.name }}
             {% if model.currentUser.isAdmin %}
-                <a href="/schedule/edit/{{ rec.id }}">Изменить</a>
+                <a href="/schedule/edit/{{ rec.id }}">Изменить</a>|
+                <a href="/schedule/remove/{{ rec.id }}">Удалить</a>
             {% endif %}</h3>
         </div>
     {% endfor %}
 
     {% if model.currentUser.isAdmin %}
-        <h3><a href="/schedule/add?group={{ model.group.id }}&dayOfWeek=FRIDAY">Добавить пару </a>|
-            <a href="/schedule/remove?group={{ model.group.id }}&dayOfWeek=FRIDAY">Удалить пару</a></h3>
+        <h3><a href="/schedule/add?group={{ model.group.id }}&dayOfWeek=FRIDAY">Добавить пару</a></h3>
     {% endif %}
 
     {% endif %}
@@ -128,14 +128,14 @@
     {% for rec in model.saturday %}
         <div><h3>{{ rec.classNumber }}. {{ rec.className }} {{ rec.teacher.name }}
             {% if model.currentUser.isAdmin %}
-                <a href="/schedule/edit/{{ rec.id }}">Изменить</a>
+                <a href="/schedule/edit/{{ rec.id }}">Изменить</a>|
+                <a href="/schedule/remove/{{ rec.id }}">Удалить</a>
             {% endif %}</h3>
         </div>
     {% endfor %}
 
     {% if model.currentUser.isAdmin %}
-        <h3><a href="/schedule/add?group={{ model.group.id }}&dayOfWeek=SATURDAY">Добавить пару </a>|
-            <a href="/schedule/remove?group={{ model.group.id }}&dayOfWeek=SATURDAY">Удалить пару</a></h3>
+        <h3><a href="/schedule/add?group={{ model.group.id }}&dayOfWeek=SATURDAY">Добавить пару</a></h3>
     {% endif %}
 
     {% endif %}

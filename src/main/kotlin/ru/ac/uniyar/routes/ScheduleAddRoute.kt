@@ -3,7 +3,6 @@ package ru.ac.uniyar.routes
 import org.http4k.core.*
 import org.http4k.lens.*
 import org.http4k.routing.bind
-import org.http4k.routing.path
 import org.http4k.routing.routes
 import org.http4k.template.ViewModel
 import ru.ac.uniyar.domain.group.Groups
@@ -22,7 +21,7 @@ fun scheduleAddRoute(
     groups: Groups,
     htmlView: BiDiBodyLens<ViewModel>
 ) = routes(
-    "/" bind Method.GET to showScheduleAddForm(currentUserLens, users, groups, htmlView),
+    "/" bind Method.GET to showScheduleAddForm(currentUserLens, users, schedules, groups, htmlView),
     "/" bind Method.POST to addScheduleWithLens(currentUserLens, users, schedules, groups, htmlView)
 )
 
@@ -48,6 +47,7 @@ private fun isGroupIdCorrect(groups: Groups, groupId: String?): Boolean {
 fun showScheduleAddForm(
     currentUserLens: BiDiLens<Request, User?>,
     users: Users,
+    schedules: Schedules,
     groups: Groups,
     htmlView: BiDiBodyLens<ViewModel>
 ): HttpHandler = { request ->
@@ -57,7 +57,11 @@ fun showScheduleAddForm(
 
     if (currentUser?.isAdmin == true) {
         if (isGroupIdCorrect(groups, groupId) && isDayOfWeekCorrect(dayOfWeek)) {
-            Response(Status.OK).with(htmlView of ShowScheduleAddFVM(currentUser, users.fetchTeachers()))
+            Response(Status.OK).with(htmlView of ShowScheduleAddFVM(
+                currentUser,
+                schedules.findLastClassNumber(groups.fetchString(groupId), DayOfWeek.valueOf(dayOfWeek!!)) + 1,
+                null,
+                users.fetchTeachers()))
         } else {
             Response(Status.BAD_REQUEST)
         }
@@ -66,10 +70,12 @@ fun showScheduleAddForm(
     }
 }
 
+private val classNumberFormLens = FormField.int().required("classNumber")
 private val classNameFormLens = FormField.string().required("className")
 private val teacherIdFormLens = FormField.string().required("teacherId")
 private val scheduleFormLens = Body.webForm(
     Validator.Feedback,
+    classNumberFormLens,
     classNameFormLens,
     teacherIdFormLens,
 ).toLens()
@@ -83,33 +89,42 @@ fun addScheduleWithLens(
 ): HttpHandler = { request ->
     val webForm = scheduleFormLens(request)
     val currentUser = currentUserLens(request)
+    val classNumber = classNumberFormLens(webForm)
     val teacher = users.fetchString(teacherIdFormLens(webForm))
     val groupId = groupIdLens(request)
-    val dayOfWeek = dayOfWeekLens(request)
+    val dayOfWeekOrNot = dayOfWeekLens(request)
 
     if (currentUser?.isAdmin == true) {
-        if (isGroupIdCorrect(groups, groupId) && isDayOfWeekCorrect(dayOfWeek)) {
-            if(webForm.errors.isEmpty()) {
-                if (teacher != null) {
-                    schedules.add(Schedule(
-                        UUID.randomUUID(),
-                        groups.fetchString(groupId)!!,
-                        DayOfWeek.valueOf(dayOfWeek!!),
-                        schedules.findLastClassNumber(groups.fetchString(groupId), DayOfWeek.valueOf(dayOfWeek)) + 1,
-                        classNameFormLens(webForm),
-                        teacher))
-                } else {
-                    schedules.add(Schedule(
-                        UUID.randomUUID(),
-                        groups.fetchString(groupId)!!,
-                        DayOfWeek.valueOf(dayOfWeek!!),
-                        schedules.findLastClassNumber(groups.fetchString(groupId), DayOfWeek.valueOf(dayOfWeek)) + 1,
-                        classNameFormLens(webForm),
-                        null))
-                }
+        if (isGroupIdCorrect(groups, groupId) && isDayOfWeekCorrect(dayOfWeekOrNot)) {
+            val group = groups.fetchString(groupId)
+            val dayOfWeek = DayOfWeek.valueOf(dayOfWeekOrNot!!)
+
+            if(webForm.errors.isEmpty() && !schedules.hasClassNumber(group, dayOfWeek, classNumber)) {
+                schedules.add(Schedule(
+                    UUID.randomUUID(),
+                    group!!,
+                    dayOfWeek,
+                    classNumber,
+                    "static",
+                    classNameFormLens(webForm),
+                    teacher,
+                    "",
+                    null
+                    ))
                 Response(Status.FOUND).header("Location", "/schedule?groupId=$groupId")
             } else {
-                Response(Status.OK).with(htmlView of ShowScheduleAddFVM(currentUser, users.fetchTeachers()))
+                val newErrors = webForm.errors + Invalid(
+                    classNumberFormLens.meta.copy(description = "Class already exists")
+                )
+                val newForm = webForm.copy(errors = newErrors)
+
+                Response(Status.OK).with(htmlView of ShowScheduleAddFVM(
+                    currentUser,
+                    classNumber,
+                    teacher,
+                    users.fetchTeachers(),
+                    newForm
+                ))
             }
         } else {
             Response(Status.BAD_REQUEST)

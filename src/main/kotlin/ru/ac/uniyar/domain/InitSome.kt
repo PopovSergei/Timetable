@@ -33,14 +33,14 @@ class InitSome {
         groups.add(Group(UUID.randomUUID(), "ИТ-1"))
         groups.add(Group(UUID.randomUUID(), "ПИЭ-1"))
 
-        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.MONDAY, 1, "Математика, 220", user2))
-        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.MONDAY, 3, "Базы данных, 210", user1))
-        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.MONDAY, 2, "Информатика, 216", user1))
-        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(1)!!, DayOfWeek.MONDAY, 1, "Математика, 215", user2))
-        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.TUESDAY, 1, "Математика, 220", user2))
-        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.THURSDAY, 1, "Информатика, 210", user1))
-        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.WEDNESDAY, 1, "Математика, 219", user2))
-        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.FRIDAY, 1, "Информатика, 216", user1))
-        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.SATURDAY, 1, "Математика, 220", user2))
+        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.MONDAY, 1, "static", "Математика, 220", user2, "", null))
+        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.MONDAY, 3, "static", "Базы данных, 210", user1, "", null))
+        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.MONDAY, 2, "static", "Информатика, 216", user1, "", null))
+        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(1)!!, DayOfWeek.MONDAY, 1, "static", "Математика, 215", user2, "", null))
+        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.TUESDAY, 1, "static", "Математика, 220", user2, "", null))
+        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.THURSDAY, 1, "static", "Информатика, 210", user1, "", null))
+        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.WEDNESDAY, 1, "static", "Математика, 219", user2, "", null))
+        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.FRIDAY, 1, "static", "Информатика, 216", user1, "", null))
+        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.SATURDAY, 1, "static", "Математика, 220", user2, "", null))
     }
 }

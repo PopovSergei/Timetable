@@ -46,7 +46,7 @@ fun app(
     "/schedule" bind GET to ShowScheduleHandler(currentUserLens, schedules, groups, html),
     "/schedule/edit/{id}" bind scheduleCreationRoute(currentUserLens, users, schedules, html),
     "/schedule/add" bind scheduleAddRoute(currentUserLens, users, schedules, groups, html),
-    "/schedule/remove" bind GET to ScheduleRemoveHandler(currentUserLens, schedules, groups),
+    "/schedule/remove/{id}" bind GET to ScheduleRemoveHandler(currentUserLens, schedules),
 
     "/login" bind GET to ShowLoginFormHandler(currentUserLens, users, html),
     "/login" bind Method.POST to AuthenticateUser(currentUserLens, authenticateUserViaLoginQuery, users, html, jwtTools),

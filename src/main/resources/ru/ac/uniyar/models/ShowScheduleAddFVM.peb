@@ -3,19 +3,28 @@
     <h1>Добавление пары</h1>
 
     {% if model.form.errors is not empty %}
-        <h3>Похоже, что вы допустили ошибку!</h3>
+        <h3>Пара с выбранным номером уже существует!</h3>
     {% endif %}
 
     <form method="POST">
-        <h3>Предмет, аудитория: <textarea name="className"></textarea>
+        <h3>
+        Номер пары:
+        <p><input type="number" required="required" name="classNumber" value="{{ model.lastClassNumber }}" min="1" max="20" step="1"></p>
+
+        Предмет, аудитория: <textarea name="className">{{ model.form.fields["className"] | first }}</textarea>
 
         Преподаватель
         <select name="teacherId">
+            {% if model.teacher is not null %}
+                <option value="{{ model.teacher.id }}">{{ model.teacher.name }}</option>
+            {% endif %}
+
             <option value="">Пустое значение</option>
             {% for rec in model.teachers %}
                 <option value="{{rec.id}}">{{rec.name}}</option>
             {% endfor %}
-        </select></h3>
+        </select>
+        </h3>
 
         <input type="submit" value="Подтвердить" class="button">
     </form>

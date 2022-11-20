@@ -10,6 +10,9 @@ data class Schedule(
     val group: Group,
     val dayOfWeek: DayOfWeek,
     var classNumber: Int,
+    val type: String,
     var className: String,
-    var teacher: User?
+    var teacher: User?,
+    var fractionClassName: String,
+    var fractionTeacher: User?
 )

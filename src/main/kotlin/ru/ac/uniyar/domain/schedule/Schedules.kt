@@ -19,36 +19,39 @@ class Schedules {
         while (toUuid().contains(schedule.id.toString()) || newId == EMPTY_UUID) {
             newId = UUID.randomUUID()
         }
-        schedules.add(Schedule(newId, schedule.group, schedule.dayOfWeek, schedule.classNumber, schedule.className, schedule.teacher))
+        schedules.add(Schedule(
+                newId,
+                schedule.group,
+                schedule.dayOfWeek,
+                schedule.classNumber,
+                schedule.type,
+                schedule.className,
+                schedule.teacher,
+                schedule.fractionClassName,
+                schedule.fractionTeacher))
     }
 
     fun update(schedule: Schedule, newClassName: String, newTeacher: User?) {
         for(i in 0 until fetchAll().count()) {
             if (schedules[i].id == schedule.id) {
-                if (newTeacher != null)
                 schedules[i] = Schedule(
                     schedule.id,
                     schedule.group,
                     schedule.dayOfWeek,
                     schedule.classNumber,
+                    schedule.type,
                     newClassName,
-                    newTeacher)
-                else
-                    schedules[i] = Schedule(
-                        schedule.id,
-                        schedule.group,
-                        schedule.dayOfWeek,
-                        schedule.classNumber,
-                        newClassName,
-                        null)
+                    newTeacher,
+                    schedule.fractionClassName,
+                    schedule.fractionTeacher
+                )
             }
         }
     }
 
-    fun remove(group: Group?, dayOfWeek: DayOfWeek) {
-        val lastClass = findLastClassNumber(group, dayOfWeek)
-        if (lastClass > 0) {
-            schedules.removeIf { it.group == group && it.dayOfWeek == dayOfWeek && it.classNumber == lastClass }
+    fun remove(schedule: Schedule?) {
+        if (schedule != null) {
+            schedules.removeIf { it.id == schedule.id }
         }
     }
 
@@ -80,6 +83,12 @@ class Schedules {
             }
         }
         return maxNumber
+    }
+
+    fun hasClassNumber(group: Group?, dayOfWeek: DayOfWeek, classNumber: Int): Boolean {
+        if (schedules.find { it.group == group && it.dayOfWeek == dayOfWeek && it.classNumber == classNumber } != null)
+            return true
+        return false
     }
 
     fun fetchString(uuid: String?): Schedule? {
