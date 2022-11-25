@@ -26,12 +26,30 @@
     <h2>Понедельник</h2>
 
     	{% for rec in model.monday %}
-            <div><h3>{{ rec.classNumber }}. {{ rec.className }} {{ rec.teacher.name }}
-                {% if model.currentUser.isAdmin %}
-                    <a href="/schedule/edit/{{ rec.id }}">Изменить </a>|
-                    <a href="/schedule/remove/{{ rec.id }}">Удалить</a>
-                {% endif %}</h3>
+            {% if rec.type == "static" %}
+            <div>
+                <h3>
+                    {{ rec.classNumber }}. {{ rec.className }} {{ rec.teacher.name }}
+                    {% if model.currentUser.isAdmin %}
+                        <a href="/schedule/edit/{{ rec.id }}">Изменить </a>|
+                        <a href="/schedule/remove/{{ rec.id }}">Удалить</a>
+                    {% endif %}
+                </h3>
             </div>
+            {% else %}
+            {% if rec.type == "fraction" %}
+            <div>
+                <h3>
+                    {{ rec.classNumber }}. Числитель: {{ rec.className }} {{ rec.teacher.name }}
+                    {% if model.currentUser.isAdmin %}
+                        <a href="/schedule/edit/{{ rec.id }}">Изменить </a>|
+                        <a href="/schedule/remove/{{ rec.id }}">Удалить</a>
+                    {% endif %}
+                </h3>
+                <h3 style="margin-left: 23px">Знаменатель: {{ rec.fractionClassName }} {{ rec.fractionTeacher.name }}</h3>
+            </div>
+            {% endif %}
+            {% endif %}
         {% endfor %}
 
         {% if model.currentUser.isAdmin %}
@@ -46,12 +64,30 @@
     <h2>Вторник</h2>
 
     {% for rec in model.tuesday %}
-        <div><h3>{{ rec.classNumber }}. {{ rec.className }} {{ rec.teacher.name }}
-            {% if model.currentUser.isAdmin %}
-                <a href="/schedule/edit/{{ rec.id }}">Изменить</a>|
-                <a href="/schedule/remove/{{ rec.id }}">Удалить</a>
-            {% endif %}</h3>
+        {% if rec.type == "static" %}
+        <div>
+            <h3>
+                {{ rec.classNumber }}. {{ rec.className }} {{ rec.teacher.name }}
+                {% if model.currentUser.isAdmin %}
+                    <a href="/schedule/edit/{{ rec.id }}">Изменить </a>|
+                    <a href="/schedule/remove/{{ rec.id }}">Удалить</a>
+                {% endif %}
+            </h3>
         </div>
+        {% else %}
+        {% if rec.type == "fraction" %}
+        <div>
+            <h3>
+                {{ rec.classNumber }}. Числитель: {{ rec.className }} {{ rec.teacher.name }}
+                {% if model.currentUser.isAdmin %}
+                    <a href="/schedule/edit/{{ rec.id }}">Изменить </a>|
+                    <a href="/schedule/remove/{{ rec.id }}">Удалить</a>
+                {% endif %}
+            </h3>
+            <h3 style="margin-left: 23px">Знаменатель: {{ rec.fractionClassName }} {{ rec.fractionTeacher.name }}</h3>
+        </div>
+        {% endif %}
+        {% endif %}
     {% endfor %}
 
     {% if model.currentUser.isAdmin %}
@@ -66,12 +102,30 @@
     <h2>Среда</h2>
 
     {% for rec in model.wednesday %}
-        <div><h3>{{ rec.classNumber }}. {{ rec.className }} {{ rec.teacher.name }}
-            {% if model.currentUser.isAdmin %}
-                <a href="/schedule/edit/{{ rec.id }}">Изменить</a>|
-                <a href="/schedule/remove/{{ rec.id }}">Удалить</a>
-            {% endif %}</h3>
+        {% if rec.type == "static" %}
+        <div>
+            <h3>
+                {{ rec.classNumber }}. {{ rec.className }} {{ rec.teacher.name }}
+                {% if model.currentUser.isAdmin %}
+                    <a href="/schedule/edit/{{ rec.id }}">Изменить </a>|
+                    <a href="/schedule/remove/{{ rec.id }}">Удалить</a>
+                {% endif %}
+            </h3>
         </div>
+        {% else %}
+        {% if rec.type == "fraction" %}
+        <div>
+            <h3>
+                {{ rec.classNumber }}. Числитель: {{ rec.className }} {{ rec.teacher.name }}
+                {% if model.currentUser.isAdmin %}
+                    <a href="/schedule/edit/{{ rec.id }}">Изменить </a>|
+                    <a href="/schedule/remove/{{ rec.id }}">Удалить</a>
+                {% endif %}
+            </h3>
+            <h3 style="margin-left: 23px">Знаменатель: {{ rec.fractionClassName }} {{ rec.fractionTeacher.name }}</h3>
+        </div>
+        {% endif %}
+        {% endif %}
     {% endfor %}
 
     {% if model.currentUser.isAdmin %}
@@ -86,12 +140,30 @@
     <h2>Четверг</h2>
 
     {% for rec in model.thursday %}
-        <div><h3>{{ rec.classNumber }}. {{ rec.className }} {{ rec.teacher.name }}
-            {% if model.currentUser.isAdmin %}
-                <a href="/schedule/edit/{{ rec.id }}">Изменить</a>|
-                <a href="/schedule/remove/{{ rec.id }}">Удалить</a>
-            {% endif %}</h3>
+        {% if rec.type == "static" %}
+        <div>
+            <h3>
+                {{ rec.classNumber }}. {{ rec.className }} {{ rec.teacher.name }}
+                {% if model.currentUser.isAdmin %}
+                    <a href="/schedule/edit/{{ rec.id }}">Изменить </a>|
+                    <a href="/schedule/remove/{{ rec.id }}">Удалить</a>
+                {% endif %}
+            </h3>
         </div>
+        {% else %}
+        {% if rec.type == "fraction" %}
+        <div>
+            <h3>
+                {{ rec.classNumber }}. Числитель: {{ rec.className }} {{ rec.teacher.name }}
+                {% if model.currentUser.isAdmin %}
+                    <a href="/schedule/edit/{{ rec.id }}">Изменить </a>|
+                    <a href="/schedule/remove/{{ rec.id }}">Удалить</a>
+                {% endif %}
+            </h3>
+            <h3 style="margin-left: 23px">Знаменатель: {{ rec.fractionClassName }} {{ rec.fractionTeacher.name }}</h3>
+        </div>
+        {% endif %}
+        {% endif %}
     {% endfor %}
 
     {% if model.currentUser.isAdmin %}
@@ -106,12 +178,30 @@
     <h2>Пятница</h2>
 
     {% for rec in model.friday %}
-        <div><h3>{{ rec.classNumber }}. {{ rec.className }} {{ rec.teacher.name }}
-            {% if model.currentUser.isAdmin %}
-                <a href="/schedule/edit/{{ rec.id }}">Изменить</a>|
-                <a href="/schedule/remove/{{ rec.id }}">Удалить</a>
-            {% endif %}</h3>
+        {% if rec.type == "static" %}
+        <div>
+            <h3>
+                {{ rec.classNumber }}. {{ rec.className }} {{ rec.teacher.name }}
+                {% if model.currentUser.isAdmin %}
+                    <a href="/schedule/edit/{{ rec.id }}">Изменить </a>|
+                    <a href="/schedule/remove/{{ rec.id }}">Удалить</a>
+                {% endif %}
+            </h3>
         </div>
+        {% else %}
+        {% if rec.type == "fraction" %}
+        <div>
+            <h3>
+                {{ rec.classNumber }}. Числитель: {{ rec.className }} {{ rec.teacher.name }}
+                {% if model.currentUser.isAdmin %}
+                    <a href="/schedule/edit/{{ rec.id }}">Изменить </a>|
+                    <a href="/schedule/remove/{{ rec.id }}">Удалить</a>
+                {% endif %}
+            </h3>
+            <h3 style="margin-left: 23px">Знаменатель: {{ rec.fractionClassName }} {{ rec.fractionTeacher.name }}</h3>
+        </div>
+        {% endif %}
+        {% endif %}
     {% endfor %}
 
     {% if model.currentUser.isAdmin %}
@@ -126,12 +216,30 @@
     <h2>Суббота</h2>
 
     {% for rec in model.saturday %}
-        <div><h3>{{ rec.classNumber }}. {{ rec.className }} {{ rec.teacher.name }}
-            {% if model.currentUser.isAdmin %}
-                <a href="/schedule/edit/{{ rec.id }}">Изменить</a>|
-                <a href="/schedule/remove/{{ rec.id }}">Удалить</a>
-            {% endif %}</h3>
+        {% if rec.type == "static" %}
+        <div>
+            <h3>
+                {{ rec.classNumber }}. {{ rec.className }} {{ rec.teacher.name }}
+                {% if model.currentUser.isAdmin %}
+                    <a href="/schedule/edit/{{ rec.id }}">Изменить </a>|
+                    <a href="/schedule/remove/{{ rec.id }}">Удалить</a>
+                {% endif %}
+            </h3>
         </div>
+        {% else %}
+        {% if rec.type == "fraction" %}
+        <div>
+            <h3>
+                {{ rec.classNumber }}. Числитель: {{ rec.className }} {{ rec.teacher.name }}
+                {% if model.currentUser.isAdmin %}
+                    <a href="/schedule/edit/{{ rec.id }}">Изменить </a>|
+                    <a href="/schedule/remove/{{ rec.id }}">Удалить</a>
+                {% endif %}
+            </h3>
+            <h3 style="margin-left: 23px">Знаменатель: {{ rec.fractionClassName }} {{ rec.fractionTeacher.name }}</h3>
+        </div>
+        {% endif %}
+        {% endif %}
     {% endfor %}
 
     {% if model.currentUser.isAdmin %}

@@ -61,6 +61,7 @@ fun showScheduleAddForm(
                 currentUser,
                 schedules.findLastClassNumber(groups.fetchString(groupId), DayOfWeek.valueOf(dayOfWeek!!)) + 1,
                 null,
+                null,
                 users.fetchTeachers()))
         } else {
             Response(Status.BAD_REQUEST)
@@ -70,14 +71,20 @@ fun showScheduleAddForm(
     }
 }
 
+private val classTypeFormLens = FormField.string().required("classType")
 private val classNumberFormLens = FormField.int().required("classNumber")
 private val classNameFormLens = FormField.string().required("className")
 private val teacherIdFormLens = FormField.string().required("teacherId")
+private val fractionClassNameFormLens = FormField.string().required("fractionClassName")
+private val fractionTeacherIdFormLens = FormField.string().required("fractionTeacherId")
 private val scheduleFormLens = Body.webForm(
     Validator.Feedback,
+    classTypeFormLens,
     classNumberFormLens,
     classNameFormLens,
     teacherIdFormLens,
+    fractionClassNameFormLens,
+    fractionTeacherIdFormLens
 ).toLens()
 
 fun addScheduleWithLens(
@@ -91,6 +98,7 @@ fun addScheduleWithLens(
     val currentUser = currentUserLens(request)
     val classNumber = classNumberFormLens(webForm)
     val teacher = users.fetchString(teacherIdFormLens(webForm))
+    val fractionTeacher = users.fetchString(fractionTeacherIdFormLens(webForm))
     val groupId = groupIdLens(request)
     val dayOfWeekOrNot = dayOfWeekLens(request)
 
@@ -105,11 +113,11 @@ fun addScheduleWithLens(
                     group!!,
                     dayOfWeek,
                     classNumber,
-                    "static",
+                    classTypeFormLens(webForm),
                     classNameFormLens(webForm),
                     teacher,
-                    "",
-                    null
+                    fractionClassNameFormLens(webForm),
+                    fractionTeacher
                     ))
                 Response(Status.FOUND).header("Location", "/schedule?groupId=$groupId")
             } else {
@@ -122,6 +130,7 @@ fun addScheduleWithLens(
                     currentUser,
                     classNumber,
                     teacher,
+                    fractionTeacher,
                     users.fetchTeachers(),
                     newForm
                 ))

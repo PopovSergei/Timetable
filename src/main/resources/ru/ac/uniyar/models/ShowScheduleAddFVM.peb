@@ -8,12 +8,22 @@
 
     <form method="POST">
         <h3>
+        Тип пары:
+        <label>
+            <input name="classType" type="radio" value="static" checked />
+            <span>Статическая</span>
+        </label>
+        <label>
+            <input name="classType" type="radio" value="fraction" />
+            <span>Числитель/Знаменатель</span>
+        </label>
+
         Номер пары:
         <p><input type="number" required="required" name="classNumber" value="{{ model.lastClassNumber }}" min="1" max="20" step="1"></p>
 
         Предмет, аудитория: <textarea name="className">{{ model.form.fields["className"] | first }}</textarea>
 
-        Преподаватель
+        Преподаватель:
         <select name="teacherId">
             {% if model.teacher is not null %}
                 <option value="{{ model.teacher.id }}">{{ model.teacher.name }}</option>
@@ -24,8 +34,40 @@
                 <option value="{{rec.id}}">{{rec.name}}</option>
             {% endfor %}
         </select>
+
+        <fieldset id="fractionFieldset" hidden>
+            Предмет, аудитория по знаменателю: <textarea name="fractionClassName">{{ model.form.fields["fractionClassName"] | first }}</textarea>
+
+            Преподаватель по знаменателю:
+            <select name="fractionTeacherId">
+                {% if model.fractionTeacher is not null %}
+                    <option value="{{ model.fractionTeacher.id }}">{{ model.fractionTeacher.name }}</option>
+                {% endif %}
+
+                <option value="">Пустое значение</option>
+                {% for rec in model.teachers %}
+                    <option value="{{rec.id}}">{{rec.name}}</option>
+                {% endfor %}
+            </select>
+        </fieldset>
         </h3>
 
         <input type="submit" value="Подтвердить" class="button">
     </form>
+
+<script>
+    if (document.querySelector('input[name="classType"]')) {
+        document.querySelectorAll('input[name="classType"]').forEach((elem) => {
+            elem.addEventListener("change", function(event) {
+                var item = event.target.value;
+                if (item === "static") {
+                    document.getElementById("fractionFieldset").hidden = true;
+                }
+                if (item === "fraction") {
+                    document.getElementById("fractionFieldset").hidden = false;
+                }
+            });
+        });
+    }
+</script>
 {% endblock %}

@@ -7,6 +7,7 @@ class ShowScheduleAddFVM(
     currentUser: User?,
     val lastClassNumber: Int,
     val teacher: User?,
+    val fractionTeacher: User?,
     val teachers: List<User>,
     val form: WebForm = WebForm()
 ): AuthenticatedViewModel(currentUser)
