@@ -31,22 +31,8 @@ class Schedules {
                 schedule.fractionTeacher))
     }
 
-    fun update(schedule: Schedule, newClassName: String, newTeacher: User?) {
-        for(i in 0 until fetchAll().count()) {
-            if (schedules[i].id == schedule.id) {
-                schedules[i] = Schedule(
-                    schedule.id,
-                    schedule.group,
-                    schedule.dayOfWeek,
-                    schedule.classNumber,
-                    schedule.type,
-                    newClassName,
-                    newTeacher,
-                    schedule.fractionClassName,
-                    schedule.fractionTeacher
-                )
-            }
-        }
+    fun update(schedule: Schedule) {
+        schedules[schedules.indexOfFirst { it.id == schedule.id }] = schedule
     }
 
     fun remove(schedule: Schedule?) {

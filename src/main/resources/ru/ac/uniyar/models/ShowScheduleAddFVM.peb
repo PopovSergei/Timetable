@@ -10,11 +10,11 @@
         <h3>
         Тип пары:
         <label>
-            <input name="classType" type="radio" value="static" checked />
+            <input name="classType" id="radioStatic" type="radio" value="static" checked />
             <span>Статическая</span>
         </label>
         <label>
-            <input name="classType" type="radio" value="fraction" />
+            <input name="classType" id="radioFraction" type="radio" value="fraction" />
             <span>Числитель/Знаменатель</span>
         </label>
 
@@ -55,19 +55,35 @@
         <input type="submit" value="Подтвердить" class="button">
     </form>
 
-<script>
-    if (document.querySelector('input[name="classType"]')) {
-        document.querySelectorAll('input[name="classType"]').forEach((elem) => {
-            elem.addEventListener("change", function(event) {
-                var item = event.target.value;
-                if (item === "static") {
-                    document.getElementById("fractionFieldset").hidden = true;
-                }
-                if (item === "fraction") {
-                    document.getElementById("fractionFieldset").hidden = false;
-                }
+    <script>
+        if (document.querySelector('input[name="classType"]')) {
+            document.querySelectorAll('input[name="classType"]').forEach((elem) => {
+                elem.addEventListener("change", function(event) {
+                    var item = event.target.value;
+                    if (item === "static") {
+                        document.getElementById("fractionFieldset").hidden = true;
+                    }
+                    if (item === "fraction") {
+                        document.getElementById("fractionFieldset").hidden = false;
+                    }
+                });
             });
-        });
-    }
-</script>
+        }
+    </script>
+
+    {% if model.type == "static" %}
+        <script>
+            document.getElementById("fractionFieldset").hidden = true;
+            document.getElementById("radioStatic").checked = true;
+            document.getElementById("radioFraction").checked = false;
+        </script>
+    {% else %}
+        {% if model.type == "fraction" %}
+            <script>
+                document.getElementById("fractionFieldset").hidden = false;
+                document.getElementById("radioFraction").checked = true;
+                document.getElementById("radioStatic").checked = false;
+            </script>
+        {% endif %}
+    {% endif %}
 {% endblock %}

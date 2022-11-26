@@ -7,17 +7,77 @@
     {% endif %}
 
     <form method="POST">
-        <h3>Предмет, аудитория: <textarea name="className">{{ model.scheduleToEdit.className }}</textarea>
+        <h3>
+        Тип пары:
+        <label>
+            <input name="classType" id="radioStatic" type="radio" value="static" checked />
+            <span>Статическая</span>
+        </label>
+        <label>
+            <input name="classType" id="radioFraction" type="radio" value="fraction" />
+            <span>Числитель/Знаменатель</span>
+        </label>
+
+        Предмет, аудитория: <textarea name="className">{{ model.schedule.className }}</textarea>
 
         Преподаватель
         <select name="teacherId">
-            <option value="{{ model.scheduleToEdit.teacher.id }}">{{ model.scheduleToEdit.teacher.name }}</option>
+            <option value="{{ model.schedule.teacher.id }}">{{ model.schedule.teacher.name }}</option>
             <option value="">Пустое значение</option>
             {% for rec in model.teachers %}
                 <option value="{{rec.id}}">{{rec.name}}</option>
             {% endfor %}
-        </select></h3>
+        </select>
+
+        <fieldset id="fractionFieldset" hidden>
+            Предмет, аудитория по знаменателю: <textarea name="fractionClassName">{{ model.schedule.fractionClassName }}</textarea>
+
+            Преподаватель по знаменателю:
+            <select name="fractionTeacherId">
+                {% if model.schedule.fractionTeacher is not null %}
+                    <option value="{{ model.schedule.fractionTeacher.id }}">{{ model.schedule.fractionTeacher.name }}</option>
+                {% endif %}
+
+                <option value="">Пустое значение</option>
+                {% for rec in model.teachers %}
+                    <option value="{{rec.id}}">{{rec.name}}</option>
+                {% endfor %}
+            </select>
+        </fieldset>
+        </h3>
 
         <input type="submit" value="Подтвердить" class="button">
     </form>
+
+    <script>
+        if (document.querySelector('input[name="classType"]')) {
+            document.querySelectorAll('input[name="classType"]').forEach((elem) => {
+                elem.addEventListener("change", function(event) {
+                    var item = event.target.value;
+                    if (item === "static") {
+                        document.getElementById("fractionFieldset").hidden = true;
+                    }
+                    if (item === "fraction") {
+                        document.getElementById("fractionFieldset").hidden = false;
+                    }
+                });
+            });
+        }
+    </script>
+
+    {% if model.schedule.type == "static" %}
+        <script>
+            document.getElementById("fractionFieldset").hidden = true;
+            document.getElementById("radioStatic").checked = true;
+            document.getElementById("radioFraction").checked = false;
+        </script>
+    {% else %}
+        {% if model.schedule.type == "fraction" %}
+            <script>
+                document.getElementById("fractionFieldset").hidden = false;
+                document.getElementById("radioFraction").checked = true;
+                document.getElementById("radioStatic").checked = false;
+            </script>
+        {% endif %}
+    {% endif %}
 {% endblock %}

@@ -6,6 +6,7 @@ import org.http4k.routing.bind
 import org.http4k.routing.path
 import org.http4k.routing.routes
 import org.http4k.template.ViewModel
+import ru.ac.uniyar.domain.schedule.Schedule
 import ru.ac.uniyar.domain.schedule.Schedules
 import ru.ac.uniyar.domain.user.User
 import ru.ac.uniyar.domain.user.Users
@@ -41,12 +42,18 @@ fun showScheduleEditForm(
     }
 }
 
+private val classTypeFormLens = FormField.string().required("classType")
 private val classNameFormLens = FormField.string().required("className")
 private val teacherIdFormLens = FormField.string().required("teacherId")
+private val fractionClassNameFormLens = FormField.string().required("fractionClassName")
+private val fractionTeacherIdFormLens = FormField.string().required("fractionTeacherId")
 private val scheduleFormLens = Body.webForm(
     Validator.Feedback,
+    classTypeFormLens,
     classNameFormLens,
     teacherIdFormLens,
+    fractionClassNameFormLens,
+    fractionTeacherIdFormLens,
 ).toLens()
 
 fun editScheduleWithLens(
@@ -59,21 +66,25 @@ fun editScheduleWithLens(
     val currentUser = currentUserLens(request)
     val scheduleId = request.path("id").orEmpty()
     val teacher = users.fetchString(teacherIdFormLens(webForm))
+    val fractionTeacher = users.fetchString(fractionTeacherIdFormLens(webForm))
 
     if (currentUser?.isAdmin == true) {
         if (schedules.fetchString(scheduleId) != null) {
             if(webForm.errors.isEmpty()) {
-                if (teacher != null) {
-                    schedules.update(
-                        schedules.fetchString(scheduleId)!!,
+                val schedule = schedules.fetchString(scheduleId)
+                schedules.update(
+                    Schedule(
+                        schedule!!.id,
+                        schedule.group,
+                        schedule.dayOfWeek,
+                        schedule.classNumber,
+                        classTypeFormLens(webForm),
                         classNameFormLens(webForm),
-                        teacher)
-                } else {
-                    schedules.update(
-                        schedules.fetchString(scheduleId)!!,
-                        classNameFormLens(webForm),
-                        null)
-                }
+                        teacher,
+                        fractionClassNameFormLens(webForm),
+                        fractionTeacher
+                    )
+                )
                 val groupId = schedules.fetchString(scheduleId)!!.group.id
                 Response(Status.FOUND).header("Location", "/schedule?groupId=$groupId")
             } else {

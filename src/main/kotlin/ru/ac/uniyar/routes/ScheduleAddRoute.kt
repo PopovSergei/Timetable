@@ -59,6 +59,7 @@ fun showScheduleAddForm(
         if (isGroupIdCorrect(groups, groupId) && isDayOfWeekCorrect(dayOfWeek)) {
             Response(Status.OK).with(htmlView of ShowScheduleAddFVM(
                 currentUser,
+                "static",
                 schedules.findLastClassNumber(groups.fetchString(groupId), DayOfWeek.valueOf(dayOfWeek!!)) + 1,
                 null,
                 null,
@@ -128,6 +129,7 @@ fun addScheduleWithLens(
 
                 Response(Status.OK).with(htmlView of ShowScheduleAddFVM(
                     currentUser,
+                    classTypeFormLens(webForm),
                     classNumber,
                     teacher,
                     fractionTeacher,

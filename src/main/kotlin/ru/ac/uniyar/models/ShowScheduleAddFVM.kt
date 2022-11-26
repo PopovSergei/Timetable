@@ -5,6 +5,7 @@ import ru.ac.uniyar.domain.user.User
 
 class ShowScheduleAddFVM(
     currentUser: User?,
+    val type: String,
     val lastClassNumber: Int,
     val teacher: User?,
     val fractionTeacher: User?,
