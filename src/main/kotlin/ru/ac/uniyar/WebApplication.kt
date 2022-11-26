@@ -51,6 +51,8 @@ fun app(
     "/login" bind GET to ShowLoginFormHandler(currentUserLens, users, html),
     "/login" bind Method.POST to AuthenticateUser(currentUserLens, authenticateUserViaLoginQuery, users, html, jwtTools),
     "/logout" bind GET to LogOutUser(),
+
+    "/user" bind GET to ShowUserHandler(currentUserLens, schedules, html),
 )
 
 fun main() {

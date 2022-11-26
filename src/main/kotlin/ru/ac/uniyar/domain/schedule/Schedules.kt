@@ -60,6 +60,10 @@ class Schedules {
         return schedules.filter { it.group.id == groupId && it.dayOfWeek == DayOfWeek.SATURDAY }.sortedBy { it.classNumber }
     }
 
+    fun filterTeacherSchedule(teacher: User): List<Schedule> {
+        return schedules.filter { it.teacher == teacher || it.fractionTeacher == teacher }.sortedBy { it.classNumber }
+    }
+
     fun findLastClassNumber(group: Group?, dayOfWeek: DayOfWeek): Int {
         var maxNumber = 0
         for (i in 0 until fetchAll().count()) {

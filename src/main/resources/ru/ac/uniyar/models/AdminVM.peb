@@ -1,0 +1,5 @@
+{% extends "./layout.peb" %}
+{% block content %}
+    <p><h1> Личный кабинет </h1></p>
+    <h3>Пользователь: {{ model.currentUser.name }}</h3>
+{% endblock %}

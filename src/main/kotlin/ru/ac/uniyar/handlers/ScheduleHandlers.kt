@@ -14,7 +14,6 @@ import ru.ac.uniyar.domain.schedule.Schedule
 import ru.ac.uniyar.domain.schedule.Schedules
 import ru.ac.uniyar.domain.user.User
 import ru.ac.uniyar.models.ScheduleVM
-import java.time.DayOfWeek
 
 class ShowScheduleHandler(
     private val currentUserLens: BiDiLens<Request, User?>,

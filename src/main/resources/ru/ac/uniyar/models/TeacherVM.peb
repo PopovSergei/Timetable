@@ -1,0 +1,163 @@
+{% extends "./layout.peb" %}
+{% block content %}
+    <p><h1> Личный кабинет </h1></p>
+    <h3>Пользователь: {{ model.currentUser.name }}</h3>
+    <p></p>
+    <h2>Личное расписание:</h2>
+    <p></p>
+
+    <h2>Понедельник</h2>
+    {% for rec in model.teacherSchedule %}
+        {% if rec.dayOfWeek == "MONDAY" %}
+            {% if rec.type == "static" %}
+                <h3>{{ rec.classNumber }}. {{ rec.className }} {{ rec.group.name }}</h3>
+            {% else %}
+                {% if rec.type == "fraction" %}
+                        {% if model.currentUser.id == rec.teacher.id and model.currentUser.id != rec.fractionTeacher.id %}
+                            <h3>{{ rec.classNumber }}. Числитель: {{ rec.className }} {{ rec.group.name }}</h3>
+                            <h3 style="margin-left: 23px">Знаменатель: </h3>
+                        {% endif %}
+                        {% if model.currentUser.id == rec.fractionTeacher.id and model.currentUser.id != rec.teacher.id %}
+                            <h3>{{ rec.classNumber }}. Числитель: </h3>
+                            <h3 style="margin-left: 23px">Знаменатель: {{ rec.fractionClassName }} {{ rec.group.name }}</h3>
+                        {% endif %}
+                        {% if model.currentUser.id == rec.fractionTeacher.id and model.currentUser.id == rec.teacher.id %}
+                            <h3>{{ rec.classNumber }}. Числитель: {{ rec.className }} {{ rec.group.name }}</h3>
+                            <h3 style="margin-left: 23px">Знаменатель: {{ rec.fractionClassName }} {{ rec.group.name }}</h3>
+                        {% endif %}
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+
+
+
+    <h2>Вторник</h2>
+    {% for rec in model.teacherSchedule %}
+        {% if rec.dayOfWeek == "TUESDAY" %}
+            {% if rec.type == "static" %}
+                <h3>{{ rec.classNumber }}. {{ rec.className }} {{ rec.group.name }}</h3>
+                {% else %}
+                {% if rec.type == "fraction" %}
+                    {% if model.currentUser.id == rec.teacher.id and model.currentUser.id != rec.fractionTeacher.id %}
+                        <h3>{{ rec.classNumber }}. Числитель: {{ rec.className }} {{ rec.group.name }}</h3>
+                        <h3 style="margin-left: 23px">Знаменатель: </h3>
+                    {% endif %}
+                    {% if model.currentUser.id == rec.fractionTeacher.id and model.currentUser.id != rec.teacher.id %}
+                        <h3>{{ rec.classNumber }}. Числитель: </h3>
+                        <h3 style="margin-left: 23px">Знаменатель: {{ rec.fractionClassName }} {{ rec.group.name }}</h3>
+                    {% endif %}
+                    {% if model.currentUser.id == rec.fractionTeacher.id and model.currentUser.id == rec.teacher.id %}
+                        <h3>{{ rec.classNumber }}. Числитель: {{ rec.className }} {{ rec.group.name }}</h3>
+                        <h3 style="margin-left: 23px">Знаменатель: {{ rec.fractionClassName }} {{ rec.group.name }}</h3>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+
+
+
+    <h2>Среда</h2>
+    {% for rec in model.teacherSchedule %}
+        {% if rec.dayOfWeek == "WEDNESDAY" %}
+            {% if rec.type == "static" %}
+                <h3>{{ rec.classNumber }}. {{ rec.className }} {{ rec.group.name }}</h3>
+                {% else %}
+                {% if rec.type == "fraction" %}
+                    {% if model.currentUser.id == rec.teacher.id and model.currentUser.id != rec.fractionTeacher.id %}
+                        <h3>{{ rec.classNumber }}. Числитель: {{ rec.className }} {{ rec.group.name }}</h3>
+                        <h3 style="margin-left: 23px">Знаменатель: </h3>
+                    {% endif %}
+                    {% if model.currentUser.id == rec.fractionTeacher.id and model.currentUser.id != rec.teacher.id %}
+                        <h3>{{ rec.classNumber }}. Числитель: </h3>
+                        <h3 style="margin-left: 23px">Знаменатель: {{ rec.fractionClassName }} {{ rec.group.name }}</h3>
+                    {% endif %}
+                    {% if model.currentUser.id == rec.fractionTeacher.id and model.currentUser.id == rec.teacher.id %}
+                        <h3>{{ rec.classNumber }}. Числитель: {{ rec.className }} {{ rec.group.name }}</h3>
+                        <h3 style="margin-left: 23px">Знаменатель: {{ rec.fractionClassName }} {{ rec.group.name }}</h3>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+
+
+
+    <h2>Четверг</h2>
+    {% for rec in model.teacherSchedule %}
+        {% if rec.dayOfWeek == "THURSDAY" %}
+            {% if rec.type == "static" %}
+                <h3>{{ rec.classNumber }}. {{ rec.className }} {{ rec.group.name }}</h3>
+                {% else %}
+                {% if rec.type == "fraction" %}
+                    {% if model.currentUser.id == rec.teacher.id and model.currentUser.id != rec.fractionTeacher.id %}
+                        <h3>{{ rec.classNumber }}. Числитель: {{ rec.className }} {{ rec.group.name }}</h3>
+                        <h3 style="margin-left: 23px">Знаменатель: </h3>
+                    {% endif %}
+                    {% if model.currentUser.id == rec.fractionTeacher.id and model.currentUser.id != rec.teacher.id %}
+                        <h3>{{ rec.classNumber }}. Числитель: </h3>
+                        <h3 style="margin-left: 23px">Знаменатель: {{ rec.fractionClassName }} {{ rec.group.name }}</h3>
+                    {% endif %}
+                    {% if model.currentUser.id == rec.fractionTeacher.id and model.currentUser.id == rec.teacher.id %}
+                        <h3>{{ rec.classNumber }}. Числитель: {{ rec.className }} {{ rec.group.name }}</h3>
+                        <h3 style="margin-left: 23px">Знаменатель: {{ rec.fractionClassName }} {{ rec.group.name }}</h3>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+
+
+
+    <h2>Пятница</h2>
+    {% for rec in model.teacherSchedule %}
+        {% if rec.dayOfWeek == "FRIDAY" %}
+            {% if rec.type == "static" %}
+                <h3>{{ rec.classNumber }}. {{ rec.className }} {{ rec.group.name }}</h3>
+                {% else %}
+                {% if rec.type == "fraction" %}
+                    {% if model.currentUser.id == rec.teacher.id and model.currentUser.id != rec.fractionTeacher.id %}
+                        <h3>{{ rec.classNumber }}. Числитель: {{ rec.className }} {{ rec.group.name }}</h3>
+                        <h3 style="margin-left: 23px">Знаменатель: </h3>
+                    {% endif %}
+                    {% if model.currentUser.id == rec.fractionTeacher.id and model.currentUser.id != rec.teacher.id %}
+                        <h3>{{ rec.classNumber }}. Числитель: </h3>
+                        <h3 style="margin-left: 23px">Знаменатель: {{ rec.fractionClassName }} {{ rec.group.name }}</h3>
+                    {% endif %}
+                    {% if model.currentUser.id == rec.fractionTeacher.id and model.currentUser.id == rec.teacher.id %}
+                        <h3>{{ rec.classNumber }}. Числитель: {{ rec.className }} {{ rec.group.name }}</h3>
+                        <h3 style="margin-left: 23px">Знаменатель: {{ rec.fractionClassName }} {{ rec.group.name }}</h3>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+
+
+
+    <h2>Суббота</h2>
+    {% for rec in model.teacherSchedule %}
+        {% if rec.dayOfWeek == "SATURDAY" %}
+            {% if rec.type == "static" %}
+                <h3>{{ rec.classNumber }}. {{ rec.className }} {{ rec.group.name }}</h3>
+                {% else %}
+                {% if rec.type == "fraction" %}
+                    {% if model.currentUser.id == rec.teacher.id and model.currentUser.id != rec.fractionTeacher.id %}
+                        <h3>{{ rec.classNumber }}. Числитель: {{ rec.className }} {{ rec.group.name }}</h3>
+                        <h3 style="margin-left: 23px">Знаменатель: </h3>
+                    {% endif %}
+                    {% if model.currentUser.id == rec.fractionTeacher.id and model.currentUser.id != rec.teacher.id %}
+                        <h3>{{ rec.classNumber }}. Числитель: </h3>
+                        <h3 style="margin-left: 23px">Знаменатель: {{ rec.fractionClassName }} {{ rec.group.name }}</h3>
+                    {% endif %}
+                    {% if model.currentUser.id == rec.fractionTeacher.id and model.currentUser.id == rec.teacher.id %}
+                        <h3>{{ rec.classNumber }}. Числитель: {{ rec.className }} {{ rec.group.name }}</h3>
+                        <h3 style="margin-left: 23px">Знаменатель: {{ rec.fractionClassName }} {{ rec.group.name }}</h3>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+
+{% endblock %}

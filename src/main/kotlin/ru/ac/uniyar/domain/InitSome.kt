@@ -37,7 +37,7 @@ class InitSome {
         schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.MONDAY, 3, "static", "Базы данных, 210", user1, "", null))
         schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.MONDAY, 2, "static", "Информатика, 216", user1, "", null))
         schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.MONDAY, 4, "fraction", "Информатика, 216", user1, "Базы данных, 210", user2))
-        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(1)!!, DayOfWeek.MONDAY, 1, "static", "Математика, 215", user2, "", null))
+        schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(1)!!, DayOfWeek.MONDAY, 2, "static", "Математика, 215", user2, "", null))
         schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.TUESDAY, 1, "static", "Математика, 220", user2, "", null))
         schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.THURSDAY, 1, "static", "Информатика, 210", user1, "", null))
         schedules.add(Schedule(EMPTY_UUID, groups.fetchOne(2)!!, DayOfWeek.WEDNESDAY, 1, "static", "Математика, 219", user2, "", null))
