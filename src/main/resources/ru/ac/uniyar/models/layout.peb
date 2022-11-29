@@ -8,10 +8,12 @@
     <link rel="stylesheet" href="/css/foundation.css">
     <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="/css/ViewCSS.css">
+    <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/neutral-face">
   </head>
 <body>
 
 <div class="top-bar">
+
     <div class="top-bar-left">
         <ul class="dropdown menu" data-dropdown-menu>
             <li><a href="/">Главная</a></li>
@@ -35,6 +37,7 @@
             <li><a href="https://docs.google.com/spreadsheets/d/1UdfzWvprGscL5zpVi1gOKriHF2g6rCJl0mPYN3vLPG8/edit#gid=0" target="_blank">😃</a></li>
         </ul>
     </div>
+
 </div>
 
 <div class="grid-container">
