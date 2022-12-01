@@ -23,8 +23,9 @@ import ru.ac.uniyar.filters.JwtTools
 import ru.ac.uniyar.filters.authenticationFilter
 import ru.ac.uniyar.filters.showErrorMessageFilter
 import ru.ac.uniyar.handlers.*
+import ru.ac.uniyar.routes.groupAddEditRoute
 import ru.ac.uniyar.routes.scheduleAddRoute
-import ru.ac.uniyar.routes.scheduleCreationRoute
+import ru.ac.uniyar.routes.scheduleEditRoute
 import ru.ac.uniyar.store.Settings
 import ru.ac.uniyar.store.SettingsFileError
 import kotlin.io.path.Path
@@ -44,9 +45,14 @@ fun app(
     "/main" bind GET to ShowMainHandler(currentUserLens, html),
 
     "/schedule" bind GET to ShowScheduleHandler(currentUserLens, schedules, groups, html),
-    "/schedule/edit/{id}" bind scheduleCreationRoute(currentUserLens, users, schedules, html),
+    "/schedule/edit/{id}" bind scheduleEditRoute(currentUserLens, users, schedules, html),
     "/schedule/add" bind scheduleAddRoute(currentUserLens, users, schedules, groups, html),
     "/schedule/remove/{id}" bind GET to ScheduleRemoveHandler(currentUserLens, schedules),
+
+    "/groups" bind GET to ShowGroupsHandler(currentUserLens, groups, html),
+    "/group/add" bind groupAddEditRoute(currentUserLens, groups, html),
+    "/group/edit" bind groupAddEditRoute(currentUserLens, groups, html),
+    "/group/remove/{id}" bind GET to GroupRemoveHandler(currentUserLens, schedules, groups),
 
     "/login" bind GET to ShowLoginFormHandler(currentUserLens, users, html),
     "/login" bind Method.POST to AuthenticateUser(currentUserLens, authenticateUserViaLoginQuery, users, html, jwtTools),

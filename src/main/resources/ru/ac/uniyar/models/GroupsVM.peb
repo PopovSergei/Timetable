@@ -1,0 +1,15 @@
+{% extends "./layout.peb" %}
+{% block content %}
+    <p><h1> Группы </h1></p>
+
+{% if model.currentUser.isAdmin %}
+    {% for rec in model.groups %}
+        <h3>
+            {{ rec.name }}
+            <a href="/group/edit?groupId={{ rec.id }}">Изменить </a>|
+            <a href="/group/remove/{{ rec.id }}">Удалить</a>
+        <h3>
+    {% endfor %}
+    <h3><a href="/group/add">Добавить группу</a></h3>
+{% endif %}
+{% endblock %}

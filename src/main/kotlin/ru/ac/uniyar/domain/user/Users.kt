@@ -31,6 +31,8 @@ class Users {
             users.find { it.id == UUID.fromString(uuid) }
         } catch (e: IllegalArgumentException) {
             null
+        } catch (e: NullPointerException) {
+            null
         }
     }
 

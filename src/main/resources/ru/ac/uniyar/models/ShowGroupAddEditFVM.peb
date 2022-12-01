@@ -1,0 +1,22 @@
+{% extends "./layout.peb" %}
+{% block content %}
+    {% if model.group is null %}
+        <p><h1>Добавление группы</h1></p>
+    {% else %}
+        <p><h1>Изменение группы</h1></p>
+    {% endif %}
+
+    {% if model.form.errors is not empty %}
+        <h3>Группа с таким именем уже существует!</h3>
+    {% endif %}
+
+    <form method="POST">
+    {% if model.group is not null and model.form.errors is empty %}
+        <p><h3>Имя группы: <input name="groupName" required="required" value="{{ model.group.name }}"></h3></p>
+    {% else %}
+        <p><h3>Имя группы: <input name="groupName" required="required" value="{{ model.form.fields["groupName"] | first }}"></h3></p>
+    {% endif %}
+
+        <p><input type="submit" value="Подтвердить" class="button"></p>
+    </form>
+{% endblock %}

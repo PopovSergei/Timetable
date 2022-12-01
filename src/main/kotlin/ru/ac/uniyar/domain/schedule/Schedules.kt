@@ -37,7 +37,12 @@ class Schedules {
 
     fun remove(schedule: Schedule?) {
         if (schedule != null) {
-            schedules.removeIf { it.id == schedule.id }
+            schedules.removeIf { it == schedule }
+        }
+    }
+    fun removeGroup(group: Group?) {
+        if (group != null) {
+            schedules.removeIf { it.group == group }
         }
     }
 
@@ -85,6 +90,8 @@ class Schedules {
         return try {
             schedules.find { it.id == UUID.fromString(uuid) }
         } catch (e: IllegalArgumentException) {
+            null
+        } catch (e: NullPointerException) {
             null
         }
     }

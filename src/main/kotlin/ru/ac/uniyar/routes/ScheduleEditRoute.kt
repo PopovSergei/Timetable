@@ -12,7 +12,7 @@ import ru.ac.uniyar.domain.user.User
 import ru.ac.uniyar.domain.user.Users
 import ru.ac.uniyar.models.ShowScheduleEditFVM
 
-fun scheduleCreationRoute(
+fun scheduleEditRoute(
     currentUserLens: BiDiLens<Request, User?>,
     users: Users,
     schedules: Schedules,

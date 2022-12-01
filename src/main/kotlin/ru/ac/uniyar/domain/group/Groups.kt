@@ -22,6 +22,22 @@ class Groups {
         groups.add(Group(newId, group.name))
     }
 
+    fun update(group: Group) {
+        groups[groups.indexOfFirst { it.id == group.id }] = group
+    }
+
+    fun remove(group: Group?) {
+        if (group != null) {
+            groups.removeIf { it == group }
+        }
+    }
+
+    fun hasSameName(groupName: String?): Boolean {
+        if (groups.find { it.name == groupName } != null)
+            return true
+        return false
+    }
+
     fun fetchOne(index: Int): Group? {
         return groups.getOrNull(index)
     }
@@ -30,6 +46,8 @@ class Groups {
         return try {
             groups.find { it.id == UUID.fromString(uuid) }
         } catch (e: IllegalArgumentException) {
+            null
+        } catch (e: NullPointerException) {
             null
         }
     }
