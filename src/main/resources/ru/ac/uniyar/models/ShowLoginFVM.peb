@@ -7,21 +7,33 @@
     {% endif %}
 
     <form method="POST">
-        <p><select required="required" name="login">
-
-            {% if model.user is not null %}
-                <option value="{{model.user.id}}">{{model.user.name}}</option>
+        <p>
+            <select required="required" name="login">
+                {% if model.user is not null %}
+                    <option value="{{model.user.id}}">{{model.user.name}}</option>
                 {% else %}
-                <option value="">Выберите значение</option>
-            {% endif %}
+                    <option value="">Выберите значение</option>
+                {% endif %}
 
-            {% for rec in model.users %}
-                <option value="{{rec.id}}">{{rec.name}}</option>
-            {% endfor %}
+                <optgroup label="Администрация">
+                    {% for rec in model.users %}
+                        {% if rec.isAdmin %}
+                            <option value="{{rec.id}}">{{rec.name}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </optgroup>
 
-        </select>
+                <optgroup label="Преподаватели">
+                    {% for rec in model.users %}
+                        {% if rec.isTeacher %}
+                            <option value="{{rec.id}}">{{rec.name}}</option>
+                        {% endif %}
+                {% endfor %}
+                </optgroup>
+            </select>
 
-            Пароль <input type="password" name="password" required="required" value="{{ model.form.fields["password"] | first }}"></p>
+            Пароль <input type="password" name="password" required="required" value="{{ model.form.fields["password"] | first }}">
+        </p>
 
         <input type="submit" value="Войти" class="button">
     </form>

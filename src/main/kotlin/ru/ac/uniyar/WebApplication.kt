@@ -23,9 +23,7 @@ import ru.ac.uniyar.filters.JwtTools
 import ru.ac.uniyar.filters.authenticationFilter
 import ru.ac.uniyar.filters.showErrorMessageFilter
 import ru.ac.uniyar.handlers.*
-import ru.ac.uniyar.routes.groupAddEditRoute
-import ru.ac.uniyar.routes.scheduleAddRoute
-import ru.ac.uniyar.routes.scheduleEditRoute
+import ru.ac.uniyar.routes.*
 import ru.ac.uniyar.store.Settings
 import ru.ac.uniyar.store.SettingsFileError
 import kotlin.io.path.Path
@@ -36,6 +34,7 @@ fun app(
     groups: Groups,
     currentUserLens: BiDiLens<Request, User?>,
     authenticateUserViaLoginQuery: AuthenticateUserViaLoginQuery,
+    settings: Settings,
     html: BiDiBodyLens<ViewModel>,
     jwtTools: JwtTools
 ): HttpHandler = routes(
@@ -59,6 +58,10 @@ fun app(
     "/logout" bind GET to LogOutUser(),
 
     "/user" bind GET to ShowUserHandler(currentUserLens, schedules, html),
+    "/users" bind GET to ShowUsersHandler(currentUserLens, users, html),
+    "/user/add" bind userAddRoute(currentUserLens, users, settings, html),
+    "/user/edit/{id}" bind userEditRoute(currentUserLens, users, html),
+    "/user/remove/{id}" bind GET to UserRemoveHandler(currentUserLens, users),
 )
 
 fun main() {
@@ -90,7 +93,7 @@ fun main() {
         ServerFilters.InitialiseRequestContext(contexts)
             .then(showErrorMessageFilter(currentUserLens, renderer))
             .then(authenticationFilter(currentUserLens, fetchUserViaToken, jwtTools))
-            .then(app(users, schedules, groups, currentUserLens, authenticateUserViaLoginQuery, htmlView, jwtTools))
+            .then(app(users, schedules, groups, currentUserLens, authenticateUserViaLoginQuery, settings, htmlView, jwtTools))
     val server = printingApp.asServer(Undertow(9000)).start()
     println("Server started on http://localhost:" + server.port())
 }

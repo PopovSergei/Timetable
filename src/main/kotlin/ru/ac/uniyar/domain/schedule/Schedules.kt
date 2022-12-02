@@ -10,13 +10,9 @@ import java.util.*
 class Schedules {
     private val schedules = mutableListOf<Schedule>()
 
-    private fun toUuid() : String {
-        return schedules.joinToString("\n") { rec -> rec.id.toString() }
-    }
-
     fun add(schedule: Schedule) {
         var newId = schedule.id
-        while (toUuid().contains(schedule.id.toString()) || newId == EMPTY_UUID) {
+        while (schedules.any { it.id == schedule.id } || newId == EMPTY_UUID) {
             newId = UUID.randomUUID()
         }
         schedules.add(Schedule(
@@ -64,7 +60,6 @@ class Schedules {
     fun filterGroupSaturday(groupId: UUID): List<Schedule> {
         return schedules.filter { it.group.id == groupId && it.dayOfWeek == DayOfWeek.SATURDAY }.sortedBy { it.classNumber }
     }
-
     fun filterTeacherSchedule(teacher: User): List<Schedule> {
         return schedules.filter { it.teacher == teacher || it.fractionTeacher == teacher }.sortedBy { it.classNumber }
     }
@@ -94,10 +89,6 @@ class Schedules {
         } catch (e: NullPointerException) {
             null
         }
-    }
-
-    fun fetch(uuid: UUID): Schedule? {
-        return schedules.find { it.id == uuid }
     }
 
     fun fetchAll() : List<Schedule> = schedules

@@ -1,0 +1,18 @@
+{% extends "./layout.peb" %}
+{% block content %}
+    <h1>Изменение пользователя</h1>
+
+    {% if model.form.errors is not empty %}
+        <h3>Ошибка!</h3>
+    {% endif %}
+
+    <form method="POST">
+        {% if model.form.errors is empty %}
+            <h3>Имя <input type="string" name="userName" required="required" value="{{ model.user.name }}"></h3>
+        {% else %}
+            <h3>Имя <input type="string" name="userName" required="required" value="{{ model.form.fields["userName"] | first }}"></h3>
+        {% endif %}
+
+        <input type="submit" value="Подтвердить" class="button">
+    </form>
+{% endblock %}

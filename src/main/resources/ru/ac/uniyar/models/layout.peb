@@ -22,6 +22,7 @@
             <li><a href="/schedule">Расписание</a></li>
             {% if model.currentUser.isAdmin %}
                 <li><a href="/groups">Группы</a></li>
+                <li><a href="/users">Пользователи</a></li>
             {% endif %}
         </ul>
     </div>

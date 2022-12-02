@@ -9,10 +9,10 @@ data class Schedule(
     val id: UUID,
     val group: Group,
     val dayOfWeek: DayOfWeek,
-    var classNumber: Int,
+    val classNumber: Int,
     val type: String,
-    var className: String,
-    var teacher: User?,
-    var fractionClassName: String,
-    var fractionTeacher: User?
+    val className: String,
+    val teacher: User?,
+    val fractionClassName: String,
+    val fractionTeacher: User?
 )

@@ -20,7 +20,7 @@ class InitSome {
     ) {
         val user1 = User(UUID.randomUUID(), "Полетаев А.Ю.", hashPassword("123", settings.salt), false, true)
         val user2 = User(UUID.randomUUID(), "Богомолов Ю.В.", hashPassword("123", settings.salt), false, true)
-        val user3 = User(UUID.randomUUID(), "Деканат", hashPassword("123", settings.salt), true, false)
+        val user3 = User(UUID.randomUUID(), "Администратор", hashPassword("123", settings.salt), true, false)
 
         users.add(user1)
         users.add(user2)

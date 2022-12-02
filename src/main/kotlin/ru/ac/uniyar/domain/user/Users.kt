@@ -6,26 +6,27 @@ import java.util.*
 class Users {
     private val users = mutableListOf<User>()
 
-    fun toSting() : String {
-        return users.joinToString("\n") { rec -> rec.name }
-    }
-
-    private fun toUuid() : String {
-        return users.joinToString("\n") { rec -> rec.id.toString() }
-    }
-
     fun add(user: User) {
         var newId = user.id
-        while (toUuid().contains(user.id.toString()) || newId == EMPTY_UUID) {
+        while (users.any { it.id == user.id } || newId == EMPTY_UUID) {
             newId = UUID.randomUUID()
         }
         users.add(User(newId, user.name, user.pass, user.isAdmin, user.isTeacher))
     }
 
+    fun update(user: User) {
+        users[users.indexOfFirst { it.id == user.id }] = user
+    }
+
+    fun remove(user: User?) {
+        if (user != null) {
+            users.removeIf { it == user }
+        }
+    }
+
     fun fetch(uuid: UUID): User? {
         return users.find { it.id == uuid }
     }
-
     fun fetchString(uuid: String?): User? {
         return try {
             users.find { it.id == UUID.fromString(uuid) }
@@ -35,10 +36,8 @@ class Users {
             null
         }
     }
-
     fun fetchTeachers() : List<User> {
-        return users.filter { it.isTeacher }
+        return users.filter { it.isTeacher }.sortedBy { it.name }
     }
-
-    fun fetchAll() : List<User> = users
+    fun fetchAll() : List<User> = users.sortedBy { it.name }
 }

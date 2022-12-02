@@ -17,7 +17,7 @@ fun groupAddEditRoute(
     groups: Groups,
     htmlView: BiDiBodyLens<ViewModel>
 ) = routes(
-    "/" bind Method.GET to showGroupAddForm(currentUserLens, groups, htmlView),
+    "/" bind Method.GET to showGroupForm(currentUserLens, groups, htmlView),
     "/" bind Method.POST to addGroupWithLens(currentUserLens, groups, htmlView)
 )
 
@@ -27,7 +27,7 @@ private fun isGroupIdCorrect(groups: Groups, groupId: String?): Boolean {
     return groups.fetchString(groupId) != null
 }
 
-fun showGroupAddForm(
+fun showGroupForm(
     currentUserLens: BiDiLens<Request, User?>,
     groups: Groups,
     htmlView: BiDiBodyLens<ViewModel>
@@ -42,7 +42,7 @@ fun showGroupAddForm(
     }
 }
 
-private val groupNameFormLens = FormField.string().required("groupName")
+private val groupNameFormLens = FormField.nonEmptyString().required("groupName")
 private val groupFormLens = Body.webForm(
     Validator.Feedback,
     groupNameFormLens

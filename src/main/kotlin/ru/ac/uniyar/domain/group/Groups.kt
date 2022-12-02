@@ -6,17 +6,9 @@ import java.util.*
 class Groups {
     private val groups = mutableListOf<Group>()
 
-    fun toSting() : String {
-        return groups.joinToString("\n") { rec -> rec.name }
-    }
-
-    private fun toUuid() : String {
-        return groups.joinToString("\n") { rec -> rec.id.toString() }
-    }
-
     fun add(group: Group) {
         var newId = group.id
-        while (toUuid().contains(group.id.toString()) || newId == EMPTY_UUID) {
+        while (groups.any { it.id == group.id } || newId == EMPTY_UUID) {
             newId = UUID.randomUUID()
         }
         groups.add(Group(newId, group.name))
@@ -41,7 +33,6 @@ class Groups {
     fun fetchOne(index: Int): Group? {
         return groups.getOrNull(index)
     }
-
     fun fetchString(uuid: String?): Group? {
         return try {
             groups.find { it.id == UUID.fromString(uuid) }
@@ -51,9 +42,5 @@ class Groups {
             null
         }
     }
-    fun fetch(uuid: UUID): Group? {
-        return groups.find { it.id == uuid }
-    }
-
     fun fetchAll() : List<Group> = groups.sortedBy { it.name }
 }

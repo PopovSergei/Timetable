@@ -1,0 +1,32 @@
+{% extends "./layout.peb" %}
+{% block content %}
+    <h1> Пользователи </h1>
+
+    {% if model.currentUser.isAdmin %}
+        <h2> Администраторы </h2>
+        {% for rec in model.users %}
+            {% if rec.isAdmin %}
+                <h3>
+                {{ rec.name }}
+                <a href="/user/edit/{{ rec.id }}">Изменить </a>
+                {% if rec.id != model.currentUser.id %}
+                    |
+                    <a href="/user/remove/{{ rec.id }}">Удалить</a>
+                {% endif %}
+                <h3>
+            {% endif %}
+        {% endfor %}
+
+        <h2> Преподаватели </h2>
+        {% for rec in model.users %}
+            {% if rec.isTeacher %}
+                <h3>
+                {{ rec.name }}
+                <a href="/user/edit/{{ rec.id }}">Изменить </a>|
+                <a href="/user/remove/{{ rec.id }}">Удалить</a>
+                <h3>
+            {% endif %}
+        {% endfor %}
+        <h3><a href="/user/add">Добавить пользователя</a></h3>
+    {% endif %}
+{% endblock %}

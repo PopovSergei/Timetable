@@ -72,7 +72,7 @@ fun showScheduleAddForm(
     }
 }
 
-private val classTypeFormLens = FormField.string().required("classType")
+private val classTypeFormLens = FormField.nonEmptyString().required("classType")
 private val classNumberFormLens = FormField.int().required("classNumber")
 private val classNameFormLens = FormField.string().required("className")
 private val teacherIdFormLens = FormField.string().required("teacherId")
