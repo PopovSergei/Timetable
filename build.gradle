@@ -47,4 +47,6 @@ dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
 
     implementation("io.pebbletemplates:pebble-spring-boot-starter:3.1.5")
+
+    implementation 'com.h2database:h2:2.1.214'
 }

@@ -6,6 +6,7 @@ import org.http4k.routing.bind
 import org.http4k.routing.routes
 import org.http4k.template.ViewModel
 import ru.ac.uniyar.computations.hashPassword
+import ru.ac.uniyar.database.repository.UsersDB
 import ru.ac.uniyar.domain.user.User
 import ru.ac.uniyar.domain.user.Users
 import ru.ac.uniyar.handlers.lensOrNull
@@ -16,11 +17,12 @@ import java.util.*
 fun userAddRoute(
     currentUserLens: BiDiLens<Request, User?>,
     users: Users,
+    usersDB: UsersDB,
     settings: Settings,
     htmlView: BiDiBodyLens<ViewModel>
 ) = routes(
     "/" bind Method.GET to showUserAddForm(currentUserLens, htmlView),
-    "/" bind Method.POST to addUserWithLens(currentUserLens, users, settings, htmlView)
+    "/" bind Method.POST to addUserWithLens(currentUserLens, users, usersDB, settings, htmlView)
 )
 
 fun showUserAddForm(currentUserLens: BiDiLens<Request, User?>, htmlView: BiDiBodyLens<ViewModel>): HttpHandler = { request->
@@ -47,6 +49,7 @@ private val userFormLens = Body.webForm(
 fun addUserWithLens(
     currentUserLens: BiDiLens<Request, User?>,
     users: Users,
+    usersDB: UsersDB,
     settings: Settings,
     htmlView: BiDiBodyLens<ViewModel>,
 ): HttpHandler = { request ->
@@ -70,7 +73,7 @@ fun addUserWithLens(
                 isTeacher = true
             }
             val hashedPass = hashPassword(firstPass!!, settings.salt)
-            users.add(User(UUID.randomUUID(), userNameFormLens(webForm), hashedPass, isAdmin, isTeacher))
+            users.add(User(UUID.randomUUID(), userNameFormLens(webForm), hashedPass, isAdmin, isTeacher), usersDB)
             Response(Status.FOUND).header("Location", "/users")
         } else {
             Response(Status.OK).with(htmlView of ShowUserAddFVM(currentUser, webForm))

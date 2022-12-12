@@ -5,6 +5,7 @@ import org.http4k.lens.BiDiBodyLens
 import org.http4k.lens.BiDiLens
 import org.http4k.routing.path
 import org.http4k.template.ViewModel
+import ru.ac.uniyar.database.repository.UsersDB
 import ru.ac.uniyar.domain.schedule.Schedules
 import ru.ac.uniyar.domain.user.User
 import ru.ac.uniyar.domain.user.Users
@@ -49,7 +50,8 @@ class ShowUsersHandler(
 
 class UserRemoveHandler(
     private val currentUserLens: BiDiLens<Request, User?>,
-    private val users: Users
+    private val users: Users,
+    private val usersDB: UsersDB
 ): HttpHandler {
     override fun invoke(request: Request): Response {
         val currentUser = currentUserLens(request)
@@ -58,7 +60,7 @@ class UserRemoveHandler(
 
         return if (currentUser?.isAdmin == true && currentUser != user) {
             if (user != null) {
-                users.remove(user)
+                users.remove(user, usersDB)
                 Response(Status.FOUND).header("Location", "/users")
             } else {
                 Response(Status.BAD_REQUEST)

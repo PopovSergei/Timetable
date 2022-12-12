@@ -1,8 +1,10 @@
 package ru.ac.uniyar.domain.schedule
 
+import ru.ac.uniyar.database.repository.SchedulesDB
 import ru.ac.uniyar.domain.EMPTY_UUID
 import ru.ac.uniyar.domain.group.Group
 import ru.ac.uniyar.domain.user.User
+import java.sql.SQLException
 import java.time.DayOfWeek
 import java.util.*
 
@@ -10,12 +12,17 @@ import java.util.*
 class Schedules {
     private val schedules = mutableListOf<Schedule>()
 
-    fun add(schedule: Schedule) {
+    fun init(schedule: Schedule) {
+        schedules.add(schedule)
+    }
+
+    fun add(schedule: Schedule, schedulesDB: SchedulesDB) {
         var newId = schedule.id
         while (schedules.any { it.id == schedule.id } || newId == EMPTY_UUID) {
             newId = UUID.randomUUID()
         }
-        schedules.add(Schedule(
+        try {
+            schedulesDB.addSchedule(Schedule(
                 newId,
                 schedule.group,
                 schedule.dayOfWeek,
@@ -25,20 +32,52 @@ class Schedules {
                 schedule.teacher,
                 schedule.fractionClassName,
                 schedule.fractionTeacher))
-    }
-
-    fun update(schedule: Schedule) {
-        schedules[schedules.indexOfFirst { it.id == schedule.id }] = schedule
-    }
-
-    fun remove(schedule: Schedule?) {
-        if (schedule != null) {
-            schedules.removeIf { it == schedule }
+            schedules.add(Schedule(
+                newId,
+                schedule.group,
+                schedule.dayOfWeek,
+                schedule.classNumber,
+                schedule.type,
+                schedule.className,
+                schedule.teacher,
+                schedule.fractionClassName,
+                schedule.fractionTeacher))
+        } catch (e: SQLException) {
+            e.printStackTrace()
+            println("SQL Error!")
         }
     }
-    fun removeGroup(group: Group?) {
+
+    fun update(schedule: Schedule, schedulesDB: SchedulesDB) {
+        try {
+            schedulesDB.updateSchedule(schedule)
+            schedules[schedules.indexOfFirst { it.id == schedule.id }] = schedule
+        } catch (e: SQLException) {
+            e.printStackTrace()
+            println("SQL Error!")
+        }
+    }
+
+    fun remove(schedule: Schedule?, schedulesDB: SchedulesDB) {
+        if (schedule != null) {
+            try {
+                schedulesDB.deleteSchedule(schedule.id.toString())
+                schedules.removeIf { it.id == schedule.id }
+            } catch (e: SQLException) {
+                e.printStackTrace()
+                println("SQL Error!")
+            }
+        }
+    }
+    fun removeGroup(group: Group?, schedulesDB: SchedulesDB) {
         if (group != null) {
-            schedules.removeIf { it.group == group }
+            try {
+                schedulesDB.deleteGroupSchedule(group.id.toString())
+                schedules.removeIf { it.group.id == group.id }
+            } catch (e: SQLException) {
+                e.printStackTrace()
+                println("SQL Error!")
+            }
         }
     }
 

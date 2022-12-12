@@ -1,26 +1,50 @@
 package ru.ac.uniyar.domain.user
 
+import ru.ac.uniyar.database.repository.UsersDB
 import ru.ac.uniyar.domain.EMPTY_UUID
+import java.sql.SQLException
 import java.util.*
 
 class Users {
     private val users = mutableListOf<User>()
 
-    fun add(user: User) {
+    fun init(user: User) {
+        users.add(user)
+    }
+
+    fun add(user: User, usersDB: UsersDB) {
         var newId = user.id
         while (users.any { it.id == user.id } || newId == EMPTY_UUID) {
             newId = UUID.randomUUID()
         }
-        users.add(User(newId, user.name, user.pass, user.isAdmin, user.isTeacher))
+        try {
+            usersDB.addUser(newId.toString(), user.name, user.pass, user.isAdmin, user.isTeacher)
+            users.add(User(newId, user.name, user.pass, user.isAdmin, user.isTeacher))
+        } catch (e: SQLException) {
+            e.printStackTrace()
+            println("SQL Error!")
+        }
     }
 
-    fun update(user: User) {
-        users[users.indexOfFirst { it.id == user.id }] = user
+    fun update(user: User, usersDB: UsersDB) {
+        try {
+            usersDB.updateUser(user)
+            users[users.indexOfFirst { it.id == user.id }] = user
+        } catch (e: SQLException) {
+            e.printStackTrace()
+            println("SQL Error!")
+        }
     }
 
-    fun remove(user: User?) {
+    fun remove(user: User?, usersDB: UsersDB) {
         if (user != null) {
-            users.removeIf { it == user }
+            try {
+                usersDB.deleteUser(user.id.toString())
+                users.removeIf { it.id == user.id }
+            } catch (e: SQLException) {
+                e.printStackTrace()
+                println("SQL Error!")
+            }
         }
     }
 

@@ -6,6 +6,7 @@ import org.http4k.routing.bind
 import org.http4k.routing.path
 import org.http4k.routing.routes
 import org.http4k.template.ViewModel
+import ru.ac.uniyar.database.repository.SchedulesDB
 import ru.ac.uniyar.domain.schedule.Schedule
 import ru.ac.uniyar.domain.schedule.Schedules
 import ru.ac.uniyar.domain.user.User
@@ -16,10 +17,11 @@ fun scheduleEditRoute(
     currentUserLens: BiDiLens<Request, User?>,
     users: Users,
     schedules: Schedules,
+    schedulesDB: SchedulesDB,
     htmlView: BiDiBodyLens<ViewModel>
 ) = routes(
     "/" bind Method.GET to showScheduleEditForm(currentUserLens, users, schedules, htmlView),
-    "/" bind Method.POST to editScheduleWithLens(currentUserLens, users, schedules, htmlView)
+    "/" bind Method.POST to editScheduleWithLens(currentUserLens, users, schedules, schedulesDB, htmlView)
 )
 
 fun showScheduleEditForm(
@@ -60,6 +62,7 @@ fun editScheduleWithLens(
     currentUserLens: BiDiLens<Request, User?>,
     users: Users,
     schedules: Schedules,
+    schedulesDB: SchedulesDB,
     htmlView: BiDiBodyLens<ViewModel>
 ): HttpHandler = { request ->
     val webForm = scheduleFormLens(request)
@@ -83,8 +86,7 @@ fun editScheduleWithLens(
                         teacher,
                         fractionClassNameFormLens(webForm),
                         fractionTeacher
-                    )
-                )
+                    ), schedulesDB)
                 val groupId = schedules.fetchString(scheduleId)!!.group.id
                 Response(Status.FOUND).header("Location", "/schedule?groupId=$groupId")
             } else {

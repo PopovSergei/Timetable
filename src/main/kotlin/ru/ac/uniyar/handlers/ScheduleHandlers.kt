@@ -8,6 +8,7 @@ import org.http4k.lens.Query
 import org.http4k.lens.string
 import org.http4k.routing.path
 import org.http4k.template.ViewModel
+import ru.ac.uniyar.database.repository.SchedulesDB
 import ru.ac.uniyar.domain.group.Group
 import ru.ac.uniyar.domain.group.Groups
 import ru.ac.uniyar.domain.schedule.Schedule
@@ -71,7 +72,8 @@ class ShowScheduleHandler(
 
 class ScheduleRemoveHandler(
     private val currentUserLens: BiDiLens<Request, User?>,
-    private val schedules: Schedules
+    private val schedules: Schedules,
+    private val schedulesDB: SchedulesDB
 ): HttpHandler {
     override fun invoke(request: Request): Response {
         val currentUser = currentUserLens(request)
@@ -80,8 +82,8 @@ class ScheduleRemoveHandler(
 
         return if (currentUser?.isAdmin == true) {
             if (schedule != null) {
-                schedules.remove(schedule)
                 val groupId = schedule.group.id
+                schedules.remove(schedule, schedulesDB)
                 Response(Status.FOUND).header("Location", "/schedule?groupId=$groupId")
             } else {
                 Response(Status.BAD_REQUEST)

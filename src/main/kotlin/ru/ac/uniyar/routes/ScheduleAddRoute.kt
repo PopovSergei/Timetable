@@ -5,6 +5,7 @@ import org.http4k.lens.*
 import org.http4k.routing.bind
 import org.http4k.routing.routes
 import org.http4k.template.ViewModel
+import ru.ac.uniyar.database.repository.SchedulesDB
 import ru.ac.uniyar.domain.group.Groups
 import ru.ac.uniyar.domain.schedule.Schedule
 import ru.ac.uniyar.domain.schedule.Schedules
@@ -19,10 +20,11 @@ fun scheduleAddRoute(
     users: Users,
     schedules: Schedules,
     groups: Groups,
+    schedulesDB: SchedulesDB,
     htmlView: BiDiBodyLens<ViewModel>
 ) = routes(
     "/" bind Method.GET to showScheduleAddForm(currentUserLens, users, schedules, groups, htmlView),
-    "/" bind Method.POST to addScheduleWithLens(currentUserLens, users, schedules, groups, htmlView)
+    "/" bind Method.POST to addScheduleWithLens(currentUserLens, users, schedules, groups, schedulesDB, htmlView)
 )
 
 private val groupIdLens = Query.string().optional("group")
@@ -93,6 +95,7 @@ fun addScheduleWithLens(
     users: Users,
     schedules: Schedules,
     groups: Groups,
+    schedulesDB: SchedulesDB,
     htmlView: BiDiBodyLens<ViewModel>
 ): HttpHandler = { request ->
     val webForm = scheduleFormLens(request)
@@ -119,7 +122,7 @@ fun addScheduleWithLens(
                     teacher,
                     fractionClassNameFormLens(webForm),
                     fractionTeacher
-                    ))
+                    ), schedulesDB)
                 Response(Status.FOUND).header("Location", "/schedule?groupId=$groupId")
             } else {
                 val newErrors = webForm.errors + Invalid(

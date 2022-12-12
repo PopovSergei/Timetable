@@ -6,7 +6,7 @@ import org.http4k.routing.bind
 import org.http4k.routing.path
 import org.http4k.routing.routes
 import org.http4k.template.ViewModel
-import ru.ac.uniyar.domain.schedule.Schedules
+import ru.ac.uniyar.database.repository.UsersDB
 import ru.ac.uniyar.domain.user.User
 import ru.ac.uniyar.domain.user.Users
 import ru.ac.uniyar.models.ShowUserEditFVM
@@ -14,10 +14,11 @@ import ru.ac.uniyar.models.ShowUserEditFVM
 fun userEditRoute(
     currentUserLens: BiDiLens<Request, User?>,
     users: Users,
+    usersDB: UsersDB,
     htmlView: BiDiBodyLens<ViewModel>
 ) = routes(
     "/" bind Method.GET to showUserEditForm(currentUserLens, users, htmlView),
-    "/" bind Method.POST to editUserWithLens(currentUserLens, users, htmlView)
+    "/" bind Method.POST to editUserWithLens(currentUserLens, users, usersDB, htmlView)
 )
 
 fun showUserEditForm(currentUserLens: BiDiLens<Request, User?>, users: Users, htmlView: BiDiBodyLens<ViewModel>): HttpHandler = { request->
@@ -44,6 +45,7 @@ private val userFormLens = Body.webForm(
 fun editUserWithLens(
     currentUserLens: BiDiLens<Request, User?>,
     users: Users,
+    usersDB: UsersDB,
     htmlView: BiDiBodyLens<ViewModel>,
 ): HttpHandler = { request ->
     val webForm = userFormLens(request)
@@ -54,7 +56,7 @@ fun editUserWithLens(
         if (users.fetchString(userId) != null) {
             if (webForm.errors.isEmpty()) {
                 val user = users.fetchString(userId)
-                users.update(User(user!!.id, userNameFormLens(webForm), user.pass, user.isAdmin, user.isTeacher))
+                users.update(User(user!!.id, userNameFormLens(webForm), user.pass, user.isAdmin, user.isTeacher), usersDB)
                 Response(Status.FOUND).header("Location", "/users")
             } else {
                 Response(Status.OK).with(htmlView of ShowUserEditFVM(currentUser, users.fetchString(userId), webForm))

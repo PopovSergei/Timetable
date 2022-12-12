@@ -1,0 +1,68 @@
+2022-12-12 17:13:23 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "STUDENTS" not found (this database is empty); SQL statement:
+SELECT * FROM STUDENTS [42104-214]
+2022-12-12 17:50:59 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "CREATE TABLE IF NOT EXISTS students ( id INT NOT NULL PRIMARY KEY, name CHAR(127) NOT NULL, surname CHAR(127) NOT NULL ) [*]CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB;"
+Syntax error in SQL statement "CREATE TABLE IF NOT EXISTS students ( id INT NOT NULL PRIMARY KEY, name CHAR(127) NOT NULL, surname CHAR(127) NOT NULL ) [*]CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB;"; SQL statement:
+CREATE TABLE IF NOT EXISTS students ( id INT NOT NULL PRIMARY KEY, name CHAR(127) NOT NULL, surname CHAR(127) NOT NULL ) CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB; [42000-214]
+2022-12-12 17:51:32 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "CREATE TABLE IF NOT EXISTS students ( id INT NOT NULL PRIMARY KEY, name CHAR(127) NOT NULL, surname CHAR(127) NOT NULL )[*], CHARACTER SET utf8, COLLATE utf8_general_ci, ENGINE=InnoDB;"
+Syntax error in SQL statement "CREATE TABLE IF NOT EXISTS students ( id INT NOT NULL PRIMARY KEY, name CHAR(127) NOT NULL, surname CHAR(127) NOT NULL )[*], CHARACTER SET utf8, COLLATE utf8_general_ci, ENGINE=InnoDB;"; SQL statement:
+CREATE TABLE IF NOT EXISTS students ( id INT NOT NULL PRIMARY KEY, name CHAR(127) NOT NULL, surname CHAR(127) NOT NULL ), CHARACTER SET utf8, COLLATE utf8_general_ci, ENGINE=InnoDB; [42000-214]
+2022-12-12 18:28:42 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "CREATE TABLE IF NOT EXISTS users ( id VARCHAR(255) NOT NULL PRIMARY KEY, name VARCHAR(255) NOT NULL, pass VARCHAR(255) NOT NULL, isAdmin BOOLEAN NOT NULL, isTeacher BOOLEAN NOT NULL ) ENGINE[*]=InnoDB;"; ожидалось "identifier"
+Syntax error in SQL statement "CREATE TABLE IF NOT EXISTS users ( id VARCHAR(255) NOT NULL PRIMARY KEY, name VARCHAR(255) NOT NULL, pass VARCHAR(255) NOT NULL, isAdmin BOOLEAN NOT NULL, isTeacher BOOLEAN NOT NULL ) ENGINE[*]=InnoDB;"; expected "identifier"; SQL statement:
+CREATE TABLE IF NOT EXISTS users ( id VARCHAR(255) NOT NULL PRIMARY KEY, name VARCHAR(255) NOT NULL, pass VARCHAR(255) NOT NULL, isAdmin BOOLEAN NOT NULL, isTeacher BOOLEAN NOT NULL ) ENGINE=InnoDB; [42001-214]
+2022-12-12 18:33:29 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "USERS" не найдена
+Table "USERS" not found; SQL statement:
+DROP TABLE users [42102-214]
+2022-12-12 18:33:50 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "CREATE TABLE IF NOT EXISTS users ( id VARCHAR(255) NOT NULL PRIMARY KEY, name VARCHAR(255) NOT NULL, pass VARCHAR(255) NOT NULL, isAdmin BOOLEAN NOT NULL, isTeacher BOOLEAN NOT NULL ) ENGINE[*]=InnoDB DEFAULT CHARSET=utf8;"; ожидалось "identifier"
+Syntax error in SQL statement "CREATE TABLE IF NOT EXISTS users ( id VARCHAR(255) NOT NULL PRIMARY KEY, name VARCHAR(255) NOT NULL, pass VARCHAR(255) NOT NULL, isAdmin BOOLEAN NOT NULL, isTeacher BOOLEAN NOT NULL ) ENGINE[*]=InnoDB DEFAULT CHARSET=utf8;"; expected "identifier"; SQL statement:
+CREATE TABLE IF NOT EXISTS users ( id VARCHAR(255) NOT NULL PRIMARY KEY, name VARCHAR(255) NOT NULL, pass VARCHAR(255) NOT NULL, isAdmin BOOLEAN NOT NULL, isTeacher BOOLEAN NOT NULL ) ENGINE=InnoDB DEFAULT CHARSET=utf8; [42001-214]
+2022-12-12 18:36:45 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "SET [*]storage_engine=INNODB"; ожидалось "@, AUTOCOMMIT, EXCLUSIVE, IGNORECASE, PASSWORD, SALT, MODE, DATABASE, COLLATION, CLUSTER, DATABASE_EVENT_LISTENER, ALLOW_LITERALS, DEFAULT_TABLE_TYPE, SCHEMA, CATALOG, SCHEMA_SEARCH_PATH, JAVA_OBJECT_SERIALIZER, IGNORE_CATALOGS, SESSION, TRANSACTION, TIME, NON_KEYWORDS, DEFAULT_NULL_ORDERING, LOG"
+Syntax error in SQL statement "SET [*]storage_engine=INNODB"; expected "@, AUTOCOMMIT, EXCLUSIVE, IGNORECASE, PASSWORD, SALT, MODE, DATABASE, COLLATION, CLUSTER, DATABASE_EVENT_LISTENER, ALLOW_LITERALS, DEFAULT_TABLE_TYPE, SCHEMA, CATALOG, SCHEMA_SEARCH_PATH, JAVA_OBJECT_SERIALIZER, IGNORE_CATALOGS, SESSION, TRANSACTION, TIME, NON_KEYWORDS, DEFAULT_NULL_ORDERING, LOG"; SQL statement:
+SET storage_engine=INNODB [42001-214]
+2022-12-12 20:57:39 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USERS" not found (this database is empty); SQL statement:
+INSERT INTO users (id, name, pass, isAdmin, isTeacher) VALUES ('4bed1b03-9f2d-44f9-b11a-fdd10bffd41e', 'Полетаев А.Ю.', '245a3577df1eab709644d367e4606ab602f4bf8338c14895880b78a7a448514e1308f77009aa0fc2ec513970eb1d124d4f9d197384bdb013ecf2b36afdf491a8', false, true) [42104-214]
+2022-12-12 21:40:50 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "DELETE FROM [*]? WHERE id = ?"; ожидалось "identifier"
+Syntax error in SQL statement "DELETE FROM [*]? WHERE id = ?"; expected "identifier"; SQL statement:
+DELETE FROM ? WHERE id = ? [42001-214]
+2022-12-12 21:43:27 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "DELETE FROM [*](?) WHERE id = ?"; ожидалось "identifier"
+Syntax error in SQL statement "DELETE FROM [*](?) WHERE id = ?"; expected "identifier"; SQL statement:
+DELETE FROM (?) WHERE id = ? [42001-214]
+2022-12-12 22:18:55 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "UPDATE [*]group SET name = ? WHERE id = ?"; ожидалось "identifier"
+Syntax error in SQL statement "UPDATE [*]group SET name = ? WHERE id = ?"; expected "identifier"; SQL statement:
+UPDATE group SET name = ? WHERE id = ? [42001-214]
+2022-12-12 22:20:08 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "UPDATE [*]group SET name = ? WHERE id = ?"; ожидалось "identifier"
+Syntax error in SQL statement "UPDATE [*]group SET name = ? WHERE id = ?"; expected "identifier"; SQL statement:
+UPDATE group SET name = ? WHERE id = ? [42001-214]
+2022-12-12 23:34:21 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "INSERT INTO schedules (id, groupId, dayOfWeek, classNumber, type, className, teacherId, fractionClassName, fractionTeacherId) VALUES ('e73d570e-e9b2-429e-9323-7e3c155658c2', '492456eb-8822-4ab0-b47e-b9cdac773b12', 'MONDAY', 1, 'static', 'Математика, 220', '7eb066da-06b7-4702-8106-29b4171cf5ae', '', '', [*])"; ожидалось "DEFAULT, INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"
+Syntax error in SQL statement "INSERT INTO schedules (id, groupId, dayOfWeek, classNumber, type, className, teacherId, fractionClassName, fractionTeacherId) VALUES ('e73d570e-e9b2-429e-9323-7e3c155658c2', '492456eb-8822-4ab0-b47e-b9cdac773b12', 'MONDAY', 1, 'static', 'Математика, 220', '7eb066da-06b7-4702-8106-29b4171cf5ae', '', '', [*])"; expected "DEFAULT, INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+INSERT INTO schedules (id, groupId, dayOfWeek, classNumber, type, className, teacherId, fractionClassName, fractionTeacherId) VALUES ('e73d570e-e9b2-429e-9323-7e3c155658c2', '492456eb-8822-4ab0-b47e-b9cdac773b12', 'MONDAY', 1, 'static', 'Математика, 220', '7eb066da-06b7-4702-8106-29b4171cf5ae', '', '', ) [42001-214]
+2022-12-13 00:03:08 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Невозможно удалить "USERS", пока существует зависимый объект "CONSTRAINT_9C8, CONSTRAINT_9C83"
+Cannot drop "USERS" because "CONSTRAINT_9C8, CONSTRAINT_9C83" depends on it; SQL statement:
+DROP TABLE IF EXISTS users [90107-214]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:632)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:477)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.command.ddl.DropTable.prepareDrop(DropTable.java:97)
+	at org.h2.command.ddl.DropTable.update(DropTable.java:121)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:169)
+	at org.h2.command.Command.executeUpdate(Command.java:252)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:252)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:223)
+	at ru.ac.uniyar.database.repository.BaseTable.executeSqlStatement(BaseTable.kt:19)
+	at ru.ac.uniyar.database.repository.UsersDB.dropTable(UsersDB.kt:133)
+	at ru.ac.uniyar.domain.InitData.initData(InitData.kt:21)
+	at ru.ac.uniyar.WebApplicationKt.main(WebApplication.kt:89)
+	at ru.ac.uniyar.WebApplicationKt.main(WebApplication.kt)

@@ -5,20 +5,21 @@ import org.http4k.lens.*
 import org.http4k.routing.bind
 import org.http4k.routing.routes
 import org.http4k.template.ViewModel
+import ru.ac.uniyar.database.repository.GroupsDB
 import ru.ac.uniyar.domain.group.Group
 import ru.ac.uniyar.domain.group.Groups
 import ru.ac.uniyar.domain.user.User
 import ru.ac.uniyar.models.ShowGroupAddEditFVM
-import java.time.DayOfWeek
 import java.util.UUID
 
 fun groupAddEditRoute(
     currentUserLens: BiDiLens<Request, User?>,
     groups: Groups,
+    groupsDB: GroupsDB,
     htmlView: BiDiBodyLens<ViewModel>
 ) = routes(
     "/" bind Method.GET to showGroupForm(currentUserLens, groups, htmlView),
-    "/" bind Method.POST to addGroupWithLens(currentUserLens, groups, htmlView)
+    "/" bind Method.POST to addGroupWithLens(currentUserLens, groups, groupsDB, htmlView)
 )
 
 private val groupIdLens = Query.string().optional("groupId")
@@ -51,6 +52,7 @@ private val groupFormLens = Body.webForm(
 fun addGroupWithLens(
     currentUserLens: BiDiLens<Request, User?>,
     groups: Groups,
+    groupsDB: GroupsDB,
     htmlView: BiDiBodyLens<ViewModel>
 ): HttpHandler = { request ->
     val webForm = groupFormLens(request)
@@ -60,10 +62,10 @@ fun addGroupWithLens(
     if (currentUser?.isAdmin == true) {
         if(webForm.errors.isEmpty() && !groups.hasSameName(groupNameFormLens(webForm))) {
             if (isGroupIdCorrect(groups, groupId)) {
-                groups.update(Group(UUID.fromString(groupId), groupNameFormLens(webForm)))
+                groups.update(Group(UUID.fromString(groupId), groupNameFormLens(webForm)), groupsDB)
                 Response(Status.FOUND).header("Location", "/groups")
             } else {
-                groups.add(Group(UUID.randomUUID(), groupNameFormLens(webForm)))
+                groups.add(Group(UUID.randomUUID(), groupNameFormLens(webForm)), groupsDB)
                 Response(Status.FOUND).header("Location", "/groups")
             }
         } else {
