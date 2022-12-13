@@ -56,9 +56,6 @@ class Groups {
         return false
     }
 
-    fun fetchOne(index: Int): Group? {
-        return groups.getOrNull(index)
-    }
     fun fetchString(uuid: String?): Group? {
         return try {
             groups.find { it.id == UUID.fromString(uuid) }

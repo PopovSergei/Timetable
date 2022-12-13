@@ -51,6 +51,7 @@ class ShowUsersHandler(
 class UserRemoveHandler(
     private val currentUserLens: BiDiLens<Request, User?>,
     private val users: Users,
+    private val schedules: Schedules,
     private val usersDB: UsersDB
 ): HttpHandler {
     override fun invoke(request: Request): Response {
@@ -60,6 +61,7 @@ class UserRemoveHandler(
 
         return if (currentUser?.isAdmin == true && currentUser != user) {
             if (user != null) {
+                schedules.removeTeacher(user)
                 users.remove(user, usersDB)
                 Response(Status.FOUND).header("Location", "/users")
             } else {

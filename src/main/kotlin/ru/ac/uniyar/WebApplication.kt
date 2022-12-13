@@ -66,8 +66,8 @@ fun app(
     "/user" bind GET to ShowUserHandler(currentUserLens, schedules, html),
     "/users" bind GET to ShowUsersHandler(currentUserLens, users, html),
     "/user/add" bind userAddRoute(currentUserLens, users, usersDB, settings, html),
-    "/user/edit/{id}" bind userEditRoute(currentUserLens, users, usersDB, html),
-    "/user/remove/{id}" bind GET to UserRemoveHandler(currentUserLens, users, usersDB),
+    "/user/edit/{id}" bind userEditRoute(currentUserLens, users, schedules, usersDB, html),
+    "/user/remove/{id}" bind GET to UserRemoveHandler(currentUserLens, users, schedules, usersDB),
 )
 
 fun main() {

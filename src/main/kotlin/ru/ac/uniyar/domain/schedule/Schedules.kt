@@ -57,6 +57,34 @@ class Schedules {
             println("SQL Error!")
         }
     }
+    fun updateTeacher(teacher: User) {
+        while (schedules.any { it.teacher?.id == teacher.id && it.teacher.name != teacher.name }) {
+            val index = schedules.indexOfFirst { it.teacher?.id == teacher.id }
+            schedules[index] = Schedule(
+                schedules[index].id,
+                schedules[index].group,
+                schedules[index].dayOfWeek,
+                schedules[index].classNumber,
+                schedules[index].type,
+                schedules[index].className,
+                teacher,
+                schedules[index].fractionClassName,
+                schedules[index].fractionTeacher)
+        }
+        while (schedules.any { it.fractionTeacher?.id == teacher.id && it.fractionTeacher.name != teacher.name }) {
+            val index = schedules.indexOfFirst { it.fractionTeacher?.id == teacher.id }
+            schedules[index] = Schedule(
+                schedules[index].id,
+                schedules[index].group,
+                schedules[index].dayOfWeek,
+                schedules[index].classNumber,
+                schedules[index].type,
+                schedules[index].className,
+                schedules[index].teacher,
+                schedules[index].fractionClassName,
+                teacher)
+        }
+    }
 
     fun remove(schedule: Schedule?, schedulesDB: SchedulesDB) {
         if (schedule != null) {
@@ -80,6 +108,34 @@ class Schedules {
             }
         }
     }
+    fun removeTeacher(teacher: User) {
+        while (schedules.any { it.teacher?.id == teacher.id }) {
+            val index = schedules.indexOfFirst { it.teacher?.id == teacher.id }
+            schedules[index] = Schedule(
+                schedules[index].id,
+                schedules[index].group,
+                schedules[index].dayOfWeek,
+                schedules[index].classNumber,
+                schedules[index].type,
+                schedules[index].className,
+                null,
+                schedules[index].fractionClassName,
+                schedules[index].fractionTeacher)
+        }
+        while (schedules.any { it.fractionTeacher?.id == teacher.id }) {
+            val index = schedules.indexOfFirst { it.fractionTeacher?.id == teacher.id }
+            schedules[index] = Schedule(
+                schedules[index].id,
+                schedules[index].group,
+                schedules[index].dayOfWeek,
+                schedules[index].classNumber,
+                schedules[index].type,
+                schedules[index].className,
+                schedules[index].teacher,
+                schedules[index].fractionClassName,
+                null)
+        }
+    }
 
     fun filterGroupMonday(groupId: UUID): List<Schedule> {
         return schedules.filter { it.group.id == groupId && it.dayOfWeek == DayOfWeek.MONDAY }.sortedBy { it.classNumber }
@@ -99,6 +155,7 @@ class Schedules {
     fun filterGroupSaturday(groupId: UUID): List<Schedule> {
         return schedules.filter { it.group.id == groupId && it.dayOfWeek == DayOfWeek.SATURDAY }.sortedBy { it.classNumber }
     }
+
     fun filterTeacherSchedule(teacher: User): List<Schedule> {
         return schedules.filter { it.teacher == teacher || it.fractionTeacher == teacher }.sortedBy { it.classNumber }
     }

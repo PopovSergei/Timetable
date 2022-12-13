@@ -13,8 +13,27 @@ class GroupsDB: BaseTable() {
     fun users() {}
 
     @Throws(SQLException::class)
-    fun someQueries() {
-        super.executeSqlStatement("SELECT * FROM groups")
+    fun selectGroup(groupId: String): Group? {
+        var group: Group? = null
+
+        reopenConnection()
+        val sqlStatement = "SELECT * FROM groups WHERE id = ?"
+        val statement: PreparedStatement = connection!!.prepareStatement(sqlStatement)
+        statement.setString(1, groupId)
+        statement.execute()
+
+        val result = statement.resultSet
+        if (result != null) {
+            val columns = result.metaData.columnCount
+            while (result.next()) {
+                if (isUUID(result.getString(1)) && columns == 2)
+                    group = Group(
+                        UUID.fromString(result.getString(1)),
+                        result.getString(2))
+            }
+        }
+        statement.close()
+        return group
     }
 
     private fun isUUID(uuid: String): Boolean {
