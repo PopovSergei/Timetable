@@ -1,10 +1,8 @@
 package ru.ac.uniyar.database.repository
 
-import ru.ac.uniyar.domain.group.Group
 import ru.ac.uniyar.domain.group.Groups
 import ru.ac.uniyar.domain.schedule.Schedule
 import ru.ac.uniyar.domain.schedule.Schedules
-import ru.ac.uniyar.domain.user.User
 import ru.ac.uniyar.domain.user.Users
 import java.sql.PreparedStatement
 import java.sql.SQLException
@@ -14,14 +12,6 @@ import java.util.UUID
 
 
 class SchedulesDB: BaseTable() {
-    @Throws(SQLException::class)
-    fun users() {}
-
-    @Throws(SQLException::class)
-    fun someQueries() {
-        super.executeSqlStatement("SELECT * FROM schedules")
-    }
-
     private fun isUUID(uuid: String): Boolean {
         return try {
             UUID.fromString(uuid)
@@ -46,6 +36,41 @@ class SchedulesDB: BaseTable() {
     }
     private fun isGroupIdCorrect(groups: Groups, groupId: String?): Boolean {
         return groups.fetchString(groupId) != null
+    }
+
+    @Throws(SQLException::class)
+    fun selectSchedule(scheduleId: String, users: Users, groups: Groups): Schedule? {
+        var schedule: Schedule? = null
+
+        reopenConnection()
+        val sqlStatement = "SELECT * FROM schedules WHERE id = ?"
+        val statement: PreparedStatement = connection!!.prepareStatement(sqlStatement)
+        statement.setString(1, scheduleId)
+        statement.executeQuery()
+
+        val result = statement.resultSet
+        if (result != null) {
+            val columns = result.metaData.columnCount
+            while (result.next()) {
+                if (isUUID(result.getString(1))
+                    && isGroupIdCorrect(groups, result.getString(2))
+                    && isDayOfWeekCorrect(result.getString(3))
+                    && columns == 9)
+                    schedule= (Schedule(
+                        UUID.fromString(result.getString(1)),
+                        groups.fetchString(result.getString(2))!!,
+                        DayOfWeek.valueOf(result.getString(3)),
+                        result.getInt(4), //classNumber
+                        result.getString(5), //type
+                        result.getString(6), //className
+                        users.fetchString(result.getString(7)),
+                        result.getString(8), //fractionClassName
+                        users.fetchString(result.getString(9))
+                    ))
+            }
+        }
+        statement.close()
+        return schedule
     }
 
     @Throws(SQLException::class)
@@ -117,20 +142,10 @@ class SchedulesDB: BaseTable() {
     }
 
     @Throws(SQLException::class)
-    fun deleteGroupSchedule(groupId: String) {
-        reopenConnection()
-        val sqlStatement = "DELETE FROM schedules WHERE groupId = ?"
-        val statement: PreparedStatement = connection!!.prepareStatement(sqlStatement)
-        statement.setString(1, groupId)
-        statement.executeUpdate()
-        statement.close()
-    }
-
-    @Throws(SQLException::class)
     fun initSchedules(schedules: Schedules, users: Users, groups: Groups) {
         reopenConnection()
         val statement: Statement = connection!!.createStatement()
-        statement.execute("SELECT * FROM schedules")
+        statement.executeQuery("SELECT * FROM schedules")
 
         val result = statement.resultSet
         if (result != null) {

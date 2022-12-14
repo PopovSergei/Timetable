@@ -57,7 +57,7 @@ fun app(
     "/groups" bind GET to ShowGroupsHandler(currentUserLens, groups, html),
     "/group/add" bind groupAddEditRoute(currentUserLens, groups, groupsDB, html),
     "/group/edit" bind groupAddEditRoute(currentUserLens, groups, groupsDB, html),
-    "/group/remove/{id}" bind GET to GroupRemoveHandler(currentUserLens, schedules, groups, schedulesDB, groupsDB),
+    "/group/remove/{id}" bind GET to GroupRemoveHandler(currentUserLens, schedules, groups, groupsDB),
 
     "/login" bind GET to ShowLoginFormHandler(currentUserLens, users, html),
     "/login" bind Method.POST to AuthenticateUser(currentUserLens, authenticateUserViaLoginQuery, users, html, jwtTools),

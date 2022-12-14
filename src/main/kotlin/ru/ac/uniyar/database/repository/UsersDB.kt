@@ -9,14 +9,6 @@ import java.util.UUID
 
 
 class UsersDB: BaseTable() {
-    @Throws(SQLException::class)
-    fun users() {}
-
-    @Throws(SQLException::class)
-    fun someQueries() {
-        super.executeSqlStatement("SELECT * FROM users")
-    }
-
     private fun isUUID(uuid: String): Boolean {
         return try {
             UUID.fromString(uuid)
@@ -29,15 +21,43 @@ class UsersDB: BaseTable() {
     }
 
     @Throws(SQLException::class)
-    fun addUser(id: String, name: String, pass: String, isAdmin: Boolean, isTeacher: Boolean) {
+    fun selectUser(userId: String): User? {
+        var user: User? = null
+
+        reopenConnection()
+        val sqlStatement = "SELECT * FROM users WHERE id = ?"
+        val statement: PreparedStatement = connection!!.prepareStatement(sqlStatement)
+        statement.setString(1, userId)
+        statement.executeQuery()
+
+        val result = statement.resultSet
+        if (result != null) {
+            val columns = result.metaData.columnCount
+            while (result.next()) {
+                if (isUUID(result.getString(1)) && columns == 5)
+                    user = User(
+                        UUID.fromString(result.getString(1)),
+                        result.getString(2),
+                        result.getString(3),
+                        result.getBoolean(4),
+                        result.getBoolean(5)
+                    )
+            }
+        }
+        statement.close()
+        return user
+    }
+
+    @Throws(SQLException::class)
+    fun addUser(user: User) {
         reopenConnection()
         val sqlStatement = "INSERT INTO users (id, name, pass, isAdmin, isTeacher) VALUES (?,?,?,?,?)"
         val statement: PreparedStatement = connection!!.prepareStatement(sqlStatement)
-        statement.setString(1, id)
-        statement.setString(2, name)
-        statement.setString(3, pass)
-        statement.setBoolean(4, isAdmin)
-        statement.setBoolean(5, isTeacher)
+        statement.setString(1, user.id.toString())
+        statement.setString(2, user.name)
+        statement.setString(3, user.pass)
+        statement.setBoolean(4, user.isAdmin)
+        statement.setBoolean(5, user.isTeacher)
         statement.executeUpdate()
         statement.close()
     }
@@ -67,7 +87,7 @@ class UsersDB: BaseTable() {
     fun initUsers(users: Users) {
         reopenConnection()
         val statement: Statement = connection!!.createStatement()
-        statement.execute("SELECT * FROM users")
+        statement.executeQuery("SELECT * FROM users")
 
         val result = statement.resultSet
         if (result != null) {

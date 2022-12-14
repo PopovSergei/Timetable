@@ -22,7 +22,7 @@ class Schedules {
             newId = UUID.randomUUID()
         }
         try {
-            schedulesDB.addSchedule(Schedule(
+            val newSchedule = Schedule(
                 newId,
                 schedule.group,
                 schedule.dayOfWeek,
@@ -31,17 +31,10 @@ class Schedules {
                 schedule.className,
                 schedule.teacher,
                 schedule.fractionClassName,
-                schedule.fractionTeacher))
-            schedules.add(Schedule(
-                newId,
-                schedule.group,
-                schedule.dayOfWeek,
-                schedule.classNumber,
-                schedule.type,
-                schedule.className,
-                schedule.teacher,
-                schedule.fractionClassName,
-                schedule.fractionTeacher))
+                schedule.fractionTeacher
+            )
+            schedulesDB.addSchedule(newSchedule)
+            schedules.add(newSchedule)
         } catch (e: SQLException) {
             e.printStackTrace()
             println("SQL Error!")
@@ -97,15 +90,9 @@ class Schedules {
             }
         }
     }
-    fun removeGroup(group: Group?, schedulesDB: SchedulesDB) {
+    fun removeGroup(group: Group?) {
         if (group != null) {
-            try {
-                schedulesDB.deleteGroupSchedule(group.id.toString())
-                schedules.removeIf { it.group.id == group.id }
-            } catch (e: SQLException) {
-                e.printStackTrace()
-                println("SQL Error!")
-            }
+            schedules.removeIf { it.group.id == group.id }
         }
     }
     fun removeTeacher(teacher: User) {

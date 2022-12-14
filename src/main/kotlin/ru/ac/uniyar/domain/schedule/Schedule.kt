@@ -11,8 +11,8 @@ data class Schedule(
     val dayOfWeek: DayOfWeek,
     val classNumber: Int,
     val type: String,
-    val className: String,
+    val className: String?,
     val teacher: User?,
-    val fractionClassName: String,
+    val fractionClassName: String?,
     val fractionTeacher: User?
 )

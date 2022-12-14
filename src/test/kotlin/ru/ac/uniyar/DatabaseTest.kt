@@ -6,34 +6,107 @@ import ru.ac.uniyar.database.repository.GroupsDB
 import ru.ac.uniyar.database.repository.SchedulesDB
 import ru.ac.uniyar.database.repository.UsersDB
 import ru.ac.uniyar.domain.group.Group
+import ru.ac.uniyar.domain.group.Groups
+import ru.ac.uniyar.domain.schedule.Schedule
+import ru.ac.uniyar.domain.schedule.Schedules
+import ru.ac.uniyar.domain.user.User
+import ru.ac.uniyar.domain.user.Users
+import java.time.DayOfWeek
 import java.util.*
 
 class DatabaseTest {
+    private val usersDB = UsersDB()
     private val groupsDB = GroupsDB()
+    private val schedulesDB = SchedulesDB()
+
+    private val schedules = Schedules()
+    private val groups = Groups()
+    private val users = Users()
+
     private var group = Group(UUID.fromString("0ee6c6db-8b5f-4e50-bfc4-48b9b90723cb"), "TestName")
-    @Test
-    fun `Group add test`() {
-        groupsDB.addGroup(group.id.toString(), group.name)
-        val selectedGroup = groupsDB.selectGroup(group.id.toString())
-        assertEquals(group,selectedGroup)
-        groupsDB.deleteGroup(group.id.toString())
-    }
+    private var user = User(
+        UUID.fromString("5bee1b03-9f2d-44f9-b15a-fdd10bfad41e"), "Иванов И.И.",
+        "245a3577df1eab709644d367e4606ab602f4bf8338c14895880b78a7a448514e1308f77009aa0fc2ec513970eb1d124d4f9d197384bdb013ecf2b36afdf491a8",
+        false, true)
+    private var schedule = Schedule(UUID.fromString("e75d570e-e9b2-459e-9323-7a3c155658e5"),
+        group, DayOfWeek.MONDAY, 1, "static", "", null, "", null)
 
     @Test
-    fun `Group update test`() {
-        groupsDB.addGroup(group.id.toString(), group.name)
+    fun `Group add`() {
+        groupsDB.addGroup(group)
+        val selectedGroup = groupsDB.selectGroup(group.id.toString())
+        assertEquals(group, selectedGroup)
+        groupsDB.deleteGroupAndGroupSchedule(group.id.toString())
+    }
+    @Test
+    fun `Group update`() {
+        groupsDB.addGroup(group)
         group = Group(group.id, "NewTestName")
         groupsDB.updateGroup(group)
         val selectedGroup = groupsDB.selectGroup(group.id.toString())
-        assertEquals(group,selectedGroup)
-        groupsDB.deleteGroup(group.id.toString())
+        assertEquals(group, selectedGroup)
+        groupsDB.deleteGroupAndGroupSchedule(group.id.toString())
+    }
+    @Test
+    fun `Group remove`() {
+        groupsDB.addGroup(group)
+        groupsDB.deleteGroupAndGroupSchedule(group.id.toString())
+        val selectedGroup = groupsDB.selectGroup(group.id.toString())
+        assertEquals(null,selectedGroup)
     }
 
     @Test
-    fun `Group remove test`() {
-        groupsDB.addGroup(group.id.toString(), group.name)
-        groupsDB.deleteGroup(group.id.toString())
-        val selectedGroup = groupsDB.selectGroup(group.id.toString())
-        assertEquals(null,selectedGroup)
+    fun `User add`() {
+        usersDB.addUser(user)
+        val selectedUser = usersDB.selectUser(user.id.toString())
+        assertEquals(user, selectedUser)
+        usersDB.deleteUser(user.id.toString())
+    }
+    @Test
+    fun `User update`() {
+        usersDB.addUser(user)
+        user = User(user.id, "Петров П.П.", user.pass, user.isAdmin, user.isTeacher)
+        usersDB.updateUser(user)
+        val selectedUser = usersDB.selectUser(user.id.toString())
+        assertEquals(user, selectedUser)
+        usersDB.deleteUser(user.id.toString())
+    }
+    @Test
+    fun `User remove`() {
+        usersDB.addUser(user)
+        usersDB.deleteUser(user.id.toString())
+        val selectedUser = usersDB.selectUser(user.id.toString())
+        assertEquals(null, selectedUser)
+    }
+
+    @Test
+    fun `Schedule add`() {
+        groups.add(group, groupsDB)
+        schedulesDB.addSchedule(schedule)
+        val selectedSchedule = schedulesDB.selectSchedule(schedule.id.toString(), users, groups)
+        assertEquals(schedule, selectedSchedule)
+        schedulesDB.deleteSchedule(schedule.id.toString())
+        groups.remove(schedules, group, groupsDB)
+    }
+    @Test
+    fun `Schedule update`() {
+        groups.add(group, groupsDB)
+        schedulesDB.addSchedule(schedule)
+        schedule = Schedule(UUID.fromString("e75d570e-e9b2-459e-9323-7a3c155658e5"),
+            group, DayOfWeek.MONDAY, 1, "fraction", "Базы данных", null, "", null)
+        schedulesDB.updateSchedule(schedule)
+        val selectedSchedule = schedulesDB.selectSchedule(schedule.id.toString(), users, groups)
+        assertEquals(schedule, selectedSchedule)
+        schedulesDB.deleteSchedule(schedule.id.toString())
+        groups.remove(schedules, group, groupsDB)
+    }
+    @Test
+    fun `Schedule remove`() {
+        groups.add(group, groupsDB)
+        schedulesDB.addSchedule(schedule)
+        schedulesDB.deleteSchedule(schedule.id.toString())
+        val selectedSchedule = schedulesDB.selectSchedule(schedule.id.toString(), users, groups)
+        assertEquals(null, selectedSchedule)
+        groups.remove(schedules, group, groupsDB)
     }
 }

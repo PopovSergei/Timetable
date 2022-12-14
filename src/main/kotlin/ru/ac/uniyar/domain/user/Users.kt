@@ -18,8 +18,9 @@ class Users {
             newId = UUID.randomUUID()
         }
         try {
-            usersDB.addUser(newId.toString(), user.name, user.pass, user.isAdmin, user.isTeacher)
-            users.add(User(newId, user.name, user.pass, user.isAdmin, user.isTeacher))
+            val newUser = User(newId, user.name, user.pass, user.isAdmin, user.isTeacher)
+            usersDB.addUser(newUser)
+            users.add(newUser)
         } catch (e: SQLException) {
             e.printStackTrace()
             println("SQL Error!")

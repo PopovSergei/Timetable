@@ -9,8 +9,16 @@ import java.util.UUID
 
 
 class GroupsDB: BaseTable() {
-    @Throws(SQLException::class)
-    fun users() {}
+    private fun isUUID(uuid: String): Boolean {
+        return try {
+            UUID.fromString(uuid)
+            true
+        } catch (e: IllegalArgumentException) {
+            false
+        } catch (e: NullPointerException) {
+            false
+        }
+    }
 
     @Throws(SQLException::class)
     fun selectGroup(groupId: String): Group? {
@@ -20,7 +28,7 @@ class GroupsDB: BaseTable() {
         val sqlStatement = "SELECT * FROM groups WHERE id = ?"
         val statement: PreparedStatement = connection!!.prepareStatement(sqlStatement)
         statement.setString(1, groupId)
-        statement.execute()
+        statement.executeQuery()
 
         val result = statement.resultSet
         if (result != null) {
@@ -36,24 +44,13 @@ class GroupsDB: BaseTable() {
         return group
     }
 
-    private fun isUUID(uuid: String): Boolean {
-        return try {
-            UUID.fromString(uuid)
-            true
-        } catch (e: IllegalArgumentException) {
-            false
-        } catch (e: NullPointerException) {
-            false
-        }
-    }
-
     @Throws(SQLException::class)
-    fun addGroup(id: String, name: String) {
+    fun addGroup(group: Group) {
         reopenConnection()
         val sqlStatement = "INSERT INTO groups (id, name) VALUES (?,?)"
         val statement: PreparedStatement = connection!!.prepareStatement(sqlStatement)
-        statement.setString(1, id)
-        statement.setString(2, name)
+        statement.setString(1, group.id.toString())
+        statement.setString(2, group.name)
         statement.executeUpdate()
         statement.close()
     }
@@ -70,12 +67,23 @@ class GroupsDB: BaseTable() {
     }
 
     @Throws(SQLException::class)
-    fun deleteGroup(groupId: String) {
+    fun deleteGroupAndGroupSchedule(groupId: String) {
         reopenConnection()
-        val sqlStatement = "DELETE FROM groups WHERE id = ?"
-        val statement: PreparedStatement = connection!!.prepareStatement(sqlStatement)
+        connection!!.autoCommit = false
+        val firstSqlStatement = "DELETE FROM schedules WHERE groupId = ?"
+        val secondSqlStatement = "DELETE FROM groups WHERE id = ?"
+
+        var statement = connection!!.prepareStatement(firstSqlStatement)
         statement.setString(1, groupId)
         statement.executeUpdate()
+
+        statement = connection!!.prepareStatement(secondSqlStatement)
+        statement.setString(1, groupId)
+        statement.executeUpdate()
+
+        connection!!.commit()
+        connection!!.autoCommit = true
+
         statement.close()
     }
 
@@ -83,7 +91,7 @@ class GroupsDB: BaseTable() {
     fun initGroups(groups: Groups) {
         reopenConnection()
         val statement: Statement = connection!!.createStatement()
-        statement.execute("SELECT * FROM groups")
+        statement.executeQuery("SELECT * FROM groups")
 
         val result = statement.resultSet
         if (result != null) {

@@ -1,9 +1,8 @@
 package ru.ac.uniyar.domain.group
 
 import ru.ac.uniyar.database.repository.GroupsDB
-import ru.ac.uniyar.database.repository.UsersDB
 import ru.ac.uniyar.domain.EMPTY_UUID
-import ru.ac.uniyar.domain.user.User
+import ru.ac.uniyar.domain.schedule.Schedules
 import java.sql.SQLException
 import java.util.*
 
@@ -20,8 +19,9 @@ class Groups {
             newId = UUID.randomUUID()
         }
         try {
-            groupsDB.addGroup(newId.toString(), group.name)
-            groups.add(Group(newId, group.name))
+            val newGroup = Group(newId, group.name)
+            groupsDB.addGroup(newGroup)
+            groups.add(newGroup)
         } catch (e: SQLException) {
             e.printStackTrace()
             println("SQL Error!")
@@ -38,12 +38,15 @@ class Groups {
         }
     }
 
-    fun remove(group: Group?, groupsDB: GroupsDB) {
+    fun remove(schedules: Schedules, group: Group?, groupsDB: GroupsDB) {
         if (group != null) {
             try {
-                groupsDB.deleteGroup(group.id.toString())
+                groupsDB.deleteGroupAndGroupSchedule(group.id.toString())
+                schedules.removeGroup(group)
                 groups.removeIf { it.id == group.id }
             } catch (e: SQLException) {
+                groupsDB.connection!!.rollback()
+                groupsDB.connection!!.autoCommit = true
                 e.printStackTrace()
                 println("SQL Error!")
             }
