@@ -1,6 +1,7 @@
 package ru.ac.uniyar
 
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import ru.ac.uniyar.database.repository.GroupsDB
 import ru.ac.uniyar.database.repository.SchedulesDB
@@ -31,82 +32,111 @@ class DatabaseTest {
     private var schedule = Schedule(UUID.fromString("e75d570e-e9b2-459e-9323-7a3c155658e5"),
         group, DayOfWeek.MONDAY, 1, "static", "", null, "", null)
 
+
     @Test
     fun `Group add`() {
-        groupsDB.addGroup(group)
+        groups.add(group, groupsDB)
+
         val selectedGroup = groupsDB.selectGroup(group.id.toString())
         assertEquals(group, selectedGroup)
-        groupsDB.deleteGroupAndGroupSchedule(group.id.toString())
+        groups.remove(schedules, group, groupsDB)
     }
     @Test
     fun `Group update`() {
-        groupsDB.addGroup(group)
+        groups.add(group, groupsDB)
         group = Group(group.id, "NewTestName")
-        groupsDB.updateGroup(group)
+        groups.update(group, groupsDB)
+
         val selectedGroup = groupsDB.selectGroup(group.id.toString())
         assertEquals(group, selectedGroup)
-        groupsDB.deleteGroupAndGroupSchedule(group.id.toString())
+        groups.remove(schedules, group, groupsDB)
     }
     @Test
     fun `Group remove`() {
-        groupsDB.addGroup(group)
-        groupsDB.deleteGroupAndGroupSchedule(group.id.toString())
+        groups.add(group, groupsDB)
+        groups.remove(schedules, group, groupsDB)
+
         val selectedGroup = groupsDB.selectGroup(group.id.toString())
-        assertEquals(null,selectedGroup)
+        assertNull(selectedGroup)
     }
 
     @Test
     fun `User add`() {
-        usersDB.addUser(user)
+        users.add(user, usersDB)
+
         val selectedUser = usersDB.selectUser(user.id.toString())
         assertEquals(user, selectedUser)
-        usersDB.deleteUser(user.id.toString())
+        users.remove(user, usersDB)
     }
     @Test
     fun `User update`() {
-        usersDB.addUser(user)
+        users.add(user, usersDB)
         user = User(user.id, "Петров П.П.", user.pass, user.isAdmin, user.isTeacher)
-        usersDB.updateUser(user)
+        users.update(user, usersDB)
+
         val selectedUser = usersDB.selectUser(user.id.toString())
         assertEquals(user, selectedUser)
-        usersDB.deleteUser(user.id.toString())
+        users.remove(user, usersDB)
     }
     @Test
     fun `User remove`() {
-        usersDB.addUser(user)
-        usersDB.deleteUser(user.id.toString())
+        users.add(user, usersDB)
+        users.remove(user, usersDB)
+
         val selectedUser = usersDB.selectUser(user.id.toString())
-        assertEquals(null, selectedUser)
+        assertNull(selectedUser)
     }
 
     @Test
     fun `Schedule add`() {
         groups.add(group, groupsDB)
-        schedulesDB.addSchedule(schedule)
+        schedules.add(schedule, schedulesDB)
+
         val selectedSchedule = schedulesDB.selectSchedule(schedule.id.toString(), users, groups)
         assertEquals(schedule, selectedSchedule)
-        schedulesDB.deleteSchedule(schedule.id.toString())
+        schedules.remove(schedule, schedulesDB)
         groups.remove(schedules, group, groupsDB)
     }
     @Test
     fun `Schedule update`() {
         groups.add(group, groupsDB)
-        schedulesDB.addSchedule(schedule)
+        schedules.add(schedule, schedulesDB)
         schedule = Schedule(UUID.fromString("e75d570e-e9b2-459e-9323-7a3c155658e5"),
             group, DayOfWeek.MONDAY, 1, "fraction", "Базы данных", null, "", null)
-        schedulesDB.updateSchedule(schedule)
+        schedules.update(schedule, schedulesDB)
+
         val selectedSchedule = schedulesDB.selectSchedule(schedule.id.toString(), users, groups)
         assertEquals(schedule, selectedSchedule)
-        schedulesDB.deleteSchedule(schedule.id.toString())
+        schedules.remove(schedule, schedulesDB)
         groups.remove(schedules, group, groupsDB)
     }
     @Test
     fun `Schedule remove`() {
         groups.add(group, groupsDB)
-        schedulesDB.addSchedule(schedule)
-        schedulesDB.deleteSchedule(schedule.id.toString())
+        schedules.add(schedule, schedulesDB)
+        schedules.remove(schedule, schedulesDB)
+
         val selectedSchedule = schedulesDB.selectSchedule(schedule.id.toString(), users, groups)
-        assertEquals(null, selectedSchedule)
+        assertNull(selectedSchedule)
         groups.remove(schedules, group, groupsDB)
+    }
+
+    @Test
+    fun `Group schedule remove`() {
+        groups.add(group, groupsDB)
+        schedules.add(schedule, schedulesDB)
+        groups.remove(schedules, group, groupsDB)
+
+        val selectedSchedule = schedulesDB.selectSchedule(schedule.id.toString(), users, groups)
+        assertNull(selectedSchedule)
+        val selectedGroup = groupsDB.selectGroup(group.id.toString())
+        assertNull(selectedGroup)
+    }
+
+    @Test
+    fun remove() {
+        schedules.remove(schedule, schedulesDB)
+        groups.remove(schedules, group, groupsDB)
+        users.remove(user, usersDB)
     }
 }

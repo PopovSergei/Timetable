@@ -146,8 +146,8 @@ class GroupsDB: BaseTable() {
         super.executeSqlStatement(
             "CREATE TABLE IF NOT EXISTS groups " +
                     "( " +
-                    "id VARCHAR(64) NOT NULL PRIMARY KEY, " +
-                    "name VARCHAR(255) NOT NULL " +
+                    "id VARCHAR(60) NOT NULL PRIMARY KEY, " +
+                    "name VARCHAR(255) NOT NULL UNIQUE" +
                     ")"
         )
     }

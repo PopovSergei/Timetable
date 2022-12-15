@@ -3,3 +3,7 @@
 
 # Ignore Gradle build output directory
 build
+
+# DB and log files
+stockExchange.mv.db
+stockExchange.trace.db

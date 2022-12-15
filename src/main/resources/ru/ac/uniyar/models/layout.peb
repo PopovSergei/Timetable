@@ -40,7 +40,6 @@
             {% else %}
                 <li><a href="/login">Войти</a></li>
             {% endif %}
-            <li><a href="https://docs.google.com/spreadsheets/d/1UdfzWvprGscL5zpVi1gOKriHF2g6rCJl0mPYN3vLPG8/edit#gid=0" target="_blank">😃</a></li>
         </ul>
     </div>
 

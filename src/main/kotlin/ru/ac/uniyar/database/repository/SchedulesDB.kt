@@ -311,20 +311,21 @@ class SchedulesDB: BaseTable() {
         super.executeSqlStatement(
             "CREATE TABLE IF NOT EXISTS schedules " +
                     "( " +
-                    "id VARCHAR(64) NOT NULL PRIMARY KEY, " +
-                    "groupId VARCHAR(64) NOT NULL, " +
-                    "dayOfWeek VARCHAR(32) NOT NULL, " +
+                    "id VARCHAR(60) NOT NULL PRIMARY KEY, " +
+                    "groupId VARCHAR(60) NOT NULL, " +
+                    "dayOfWeek VARCHAR(30) NOT NULL, " +
                     "classNumber INT NOT NULL, " +
-                    "type VARCHAR(32) NOT NULL, " +
+                    "type VARCHAR(30) NOT NULL DEFAULT 'static', " +
                     "className VARCHAR(255), " +
-                    "teacherId VARCHAR(64), " +
+                    "teacherId VARCHAR(60), " +
                     "fractionClassName VARCHAR(255), " +
-                    "fractionTeacherId VARCHAR(64)" +
+                    "fractionTeacherId VARCHAR(60)" +
                     ")"
         )
         super.executeSqlStatement("ALTER TABLE schedules ADD FOREIGN KEY (groupId) REFERENCES groups(id) ON UPDATE CASCADE")
         super.executeSqlStatement("ALTER TABLE schedules ADD FOREIGN KEY (teacherId) REFERENCES users(id) ON UPDATE CASCADE ON DELETE SET NULL")
         super.executeSqlStatement("ALTER TABLE schedules ADD FOREIGN KEY (fractionTeacherId) REFERENCES users(id) ON UPDATE CASCADE ON DELETE SET NULL")
+        super.executeSqlStatement("ALTER TABLE schedules ADD CONSTRAINT check_schedules_classNumber CHECK(classNumber <= 20 AND classNumber > 0)")
     }
 
     @Throws(SQLException::class)

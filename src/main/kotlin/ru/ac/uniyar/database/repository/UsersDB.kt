@@ -111,7 +111,7 @@ class UsersDB: BaseTable() {
         super.executeSqlStatement("INSERT INTO users (id, name, pass, isAdmin, isTeacher) " +
                 "VALUES (" +
                 "'4bed1b03-9f2d-44f9-b11a-fdd10bffd41e', " +
-                "'Полетаев А.Ю.', " +
+                "'Иванов И.И.', " +
                 "'245a3577df1eab709644d367e4606ab602f4bf8338c14895880b78a7a448514e1308f77009aa0fc2ec513970eb1d124d4f9d197384bdb013ecf2b36afdf491a8', " +
                 "false, " +
                 "true" +
@@ -119,7 +119,7 @@ class UsersDB: BaseTable() {
         super.executeSqlStatement("INSERT INTO users (id, name, pass, isAdmin, isTeacher) " +
                 "VALUES (" +
                 "'7eb066da-06b7-4702-8106-29b4171cf5ae', " +
-                "'Богомолов Ю.В.', " +
+                "'Петров П.П.', " +
                 "'245a3577df1eab709644d367e4606ab602f4bf8338c14895880b78a7a448514e1308f77009aa0fc2ec513970eb1d124d4f9d197384bdb013ecf2b36afdf491a8', " +
                 "false, " +
                 "true" +
@@ -139,11 +139,11 @@ class UsersDB: BaseTable() {
         super.executeSqlStatement(
             "CREATE TABLE IF NOT EXISTS users " +
                     "( " +
-                    "id VARCHAR(64) NOT NULL PRIMARY KEY, " +
+                    "id VARCHAR(60) NOT NULL PRIMARY KEY, " +
                     "name VARCHAR(255) NOT NULL, " +
                     "pass VARCHAR(255) NOT NULL, " +
-                    "isAdmin BOOLEAN NOT NULL, " +
-                    "isTeacher BOOLEAN NOT NULL " +
+                    "isAdmin BOOLEAN NOT NULL DEFAULT false, " +
+                    "isTeacher BOOLEAN NOT NULL DEFAULT true" +
                     ")"
         )
     }

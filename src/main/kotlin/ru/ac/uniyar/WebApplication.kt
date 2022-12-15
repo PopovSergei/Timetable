@@ -86,9 +86,9 @@ fun main() {
     val groupsDB = GroupsDB()
     val schedulesDB = SchedulesDB()
 
+    InitData().dropAndCreateTables(usersDB, groupsDB, schedulesDB) // Only at first start. Or for db re-creation.
+    //InitData().initTables(usersDB, groupsDB, schedulesDB) // Only at first start. Init tables with sample data
     InitData().initData(users, schedules, groups, usersDB, groupsDB, schedulesDB)
-
-    /** Пароль от всех аккаунтов - 123 **/
 
     val contexts = RequestContexts()
     val currentUserLens = RequestContextKey.optional<User>(contexts)
