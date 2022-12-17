@@ -87,7 +87,7 @@ fun main() {
     val schedulesDB = SchedulesDB()
 
     InitData().dropAndCreateTables(usersDB, groupsDB, schedulesDB) // Only at first start. Or for db re-creation.
-    //InitData().initTables(usersDB, groupsDB, schedulesDB) // Only at first start. Init tables with sample data
+    InitData().initTables(usersDB, groupsDB, schedulesDB) // Only at first start. Init tables with sample data. Pass: 123
     InitData().initData(users, schedules, groups, usersDB, groupsDB, schedulesDB)
 
     val contexts = RequestContexts()

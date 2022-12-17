@@ -24,6 +24,9 @@
                 <li><a href="/groups">Группы</a></li>
                 <li><a href="/users">Пользователи</a></li>
             {% endif %}
+            {% if model.currentUser.isTeacher %}
+                <li><a href="/user">Личное расписание</a></li>
+            {% endif %}
         </ul>
     </div>
 
